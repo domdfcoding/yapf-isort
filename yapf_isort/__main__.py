@@ -12,6 +12,7 @@ yapf 💌 isort
 
 # stdlib
 import argparse
+import re
 import sys
 from typing import List, Optional
 
@@ -46,12 +47,24 @@ def main(argv: Optional[List[str]] = None) -> int:
 			help="The path to the isort configuration file. (default: %(default)s)",
 			default=".isort.cfg"
 			)
+	parser.add_argument(
+			'-e',
+			'--exclude',
+			metavar='PATTERN',
+			action='append',
+			default=None,
+			help='patterns for files to exclude from formatting'
+			)
 
 	args = parser.parse_args(argv)
 
 	retv = 0
 
 	for filename in args.filename:
+		for pattern in args.exclude:
+			if re.match(pattern, str(filename)):
+				continue
+
 		retv |= reformat_file(filename, yapf_style=args.yapf_style, isort_config_file=args.isort_config)
 
 	return retv
