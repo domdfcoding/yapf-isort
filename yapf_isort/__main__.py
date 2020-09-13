@@ -12,6 +12,7 @@ yapf 💌 isort
 
 # stdlib
 import argparse
+import fnmatch
 import re
 import sys
 from typing import List, Optional
@@ -62,7 +63,7 @@ def main(argv: Optional[List[str]] = None) -> int:
 
 	for filename in args.filename:
 		for pattern in args.exclude or []:
-			if re.match(pattern, str(filename)):
+			if re.match(fnmatch.translate(pattern), str(filename)):
 				continue
 
 		retv |= reformat_file(filename, yapf_style=args.yapf_style, isort_config_file=args.isort_config)

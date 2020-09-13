@@ -32,6 +32,8 @@ __email__: str = "dominic@davis-foster.co.uk"
 
 __all__ = ["coloured_diff", "Reformatter", "reformat_file"]
 
+# TODO: options for no colours in output and no diff when changes made.
+
 
 def coloured_diff(
 		a: Sequence[str],
