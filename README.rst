@@ -72,7 +72,7 @@ together for formatting Python source files.
 .. |language| image:: https://img.shields.io/github/languages/top/domdfcoding/yapf-isort
 	:alt: GitHub top language
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/domdfcoding/yapf-isort/v0.0.0
+.. |commits-since| image:: https://img.shields.io/github/commits-since/domdfcoding/yapf-isort/v0.1.0
 	:target: https://github.com/domdfcoding/yapf-isort/pulse
 	:alt: GitHub commits since tagged version
 
