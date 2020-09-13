@@ -52,6 +52,7 @@ def main(argv: Optional[List[str]] = None) -> int:
 
 	retv = 0
 	print(os.getcwd())
+	print(PathPlus(args.yapf_style).is_file())
 	input(">>>")
 
 	for filename in args.filename:
