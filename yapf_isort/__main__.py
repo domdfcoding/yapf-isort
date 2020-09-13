@@ -12,6 +12,7 @@ yapf 💌 isort
 
 # stdlib
 import argparse
+import os
 import sys
 from typing import List, Optional
 
@@ -40,11 +41,18 @@ def main(argv: Optional[List[str]] = None) -> int:
 			help="The name of the yapf style to use, or the path to a style file. (default: %(default)s)",
 			default=".style.yapf"
 			)
-	parser.add_argument("--isort-config", type=PathPlus, help="The path to the isort configuration file.")
+	parser.add_argument(
+			"--isort-config",
+			type=PathPlus,
+			help="The path to the isort configuration file. (default: %(default)s)",
+			default=".isort.cfg"
+			)
 
 	args = parser.parse_args(argv)
 
 	retv = 0
+	print(os.getcwd())
+	input(">>>")
 
 	for filename in args.filename:
 		retv |= reformat_file(filename, yapf_style=args.yapf_style, isort_config_file=args.isort_config)

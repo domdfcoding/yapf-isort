@@ -16,3 +16,9 @@ on_pypi: False
 
 console_scripts:
   - yapf_isort=yapf_isort.__main__:main
+
+python_versions:
+  - 3.6
+  - 3.7
+  - 3.8
+  - 3.9-dev
