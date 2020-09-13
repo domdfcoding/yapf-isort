@@ -10,13 +10,6 @@ yapf 💌 isort
 #  See the LICENSE file for details.
 #
 
-__author__: str = "Dominic Davis-Foster"
-__copyright__: str = "2020 Dominic Davis-Foster"
-
-__license__: str = "Apache Software License"
-__version__: str = "0.0.0"
-__email__: str = "dominic@davis-foster.co.uk"
-
 # stdlib
 import difflib
 from typing import Optional, Sequence
@@ -29,6 +22,13 @@ from domdf_python_tools.terminal_colours import Colour, Fore
 from domdf_python_tools.typing import PathLike
 from isort import Config
 from yapf.yapflib.yapf_api import FormatCode  # type: ignore
+
+__author__: str = "Dominic Davis-Foster"
+__copyright__: str = "2020 Dominic Davis-Foster"
+
+__license__: str = "Apache Software License"
+__version__: str = "0.0.0"
+__email__: str = "dominic@davis-foster.co.uk"
 
 __all__ = ["coloured_diff", "Reformatter", "reformat_file"]
 
