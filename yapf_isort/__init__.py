@@ -141,7 +141,10 @@ class Reformatter:
 		"""
 
 		yapfed_code = FormatCode(self._unformatted_source, style_config=self.yapf_style)[0]
-		self._reformatted_source = isort.code(yapfed_code, config=self.isort_config)
+		isorted_code = StringList(isort.code(yapfed_code, config=self.isort_config))
+		isorted_code.blankline(ensure_single=True)
+		self._reformatted_source = str(isorted_code)
+
 		return self._reformatted_source != self._unformatted_source
 
 	def get_diff(self) -> str:
