@@ -61,7 +61,7 @@ def main(argv: Optional[List[str]] = None) -> int:
 	retv = 0
 
 	for filename in args.filename:
-		for pattern in args.exclude:
+		for pattern in args.exclude or []:
 			if re.match(pattern, str(filename)):
 				continue
 
