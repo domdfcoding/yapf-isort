@@ -1,0 +1,18 @@
+# Configuration for 'repo_helper' (https://github.com/domdfcoding/repo_helper)
+---
+modname: 'yapf-isort'
+copyright_years: 2020
+author: 'Dominic Davis-Foster'
+email: 'dominic@davis-foster.co.uk'
+username: 'domdfcoding'
+version: '0.0.0'
+license: 'Apache'
+short_desc: 'yapf 💌 isort'
+
+enable_conda: False
+enable_tests: False
+enable_docs: False
+on_pypi: False
+
+console_scripts:
+  - yapf_isort=yapf_isort.__main__:main
