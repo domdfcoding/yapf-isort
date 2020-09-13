@@ -53,10 +53,12 @@ def main(argv: Optional[List[str]] = None) -> int:
 	retv = 0
 	print(os.getcwd())
 	print(PathPlus(args.yapf_style).is_file())
-	input(">>>")
+	print(args.isort_config.is_file())
 
 	for filename in args.filename:
 		retv |= reformat_file(filename, yapf_style=args.yapf_style, isort_config_file=args.isort_config)
+		if retv:
+			sys.exit(1)
 
 	return retv
 
