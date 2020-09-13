@@ -200,7 +200,7 @@ def reformat_file(filename: PathLike, yapf_style: str, isort_config_file: str) -
 	:return:
 	"""
 
-	isort_config = Config(settings_file=isort_config_file)
+	isort_config = Config(settings_file=str(isort_config_file))
 
 	r = Reformatter(filename, yapf_style, isort_config)
 
