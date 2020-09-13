@@ -92,8 +92,9 @@ def coloured_diff(
 	:param tofiledate:
 	:param n:
 	:param lineterm:
-	:param removed_colour:
-	:param added_colour:
+	:param removed_colour: The :class:`~domdf_python_tools.terminal_colours.Colour` to use for lines that were removed.
+	:param added_colour: The :class:`~domdf_python_tools.terminal_colours.Colour` to use for lines that were added.
+	:param changed_colour: The :class:`~domdf_python_tools.terminal_colours.Colour` to use for lines that changed.
 
 	:return:
 	"""
@@ -189,7 +190,7 @@ class Reformatter:
 		if self._reformatted_source is None:
 			raise ValueError("'Reformatter.run()' must be called first!")
 
-		self.file_to_format.write_clean(self._reformatted_source)
+		self.file_to_format.write_text(self._reformatted_source)
 
 
 def reformat_file(filename: PathLike, yapf_style: str, isort_config_file: str) -> int:
