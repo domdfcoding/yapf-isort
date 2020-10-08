@@ -39,7 +39,7 @@ __copyright__ = """
 2020 Dominic Davis-Foster <dominic@davis-foster.co.uk>
 """
 
-__version__ = "0.3.0"
+__version__ = "0.3.1"
 modname = "yapf-isort"
 pypi_name = "yapf-isort"
 import_name = "yapf_isort"
