@@ -12,7 +12,6 @@ short_desc: 'yapf 💌 isort'
 enable_conda: False
 enable_tests: False
 enable_docs: False
-on_pypi: False
 
 console_scripts:
   - yapf_isort=yapf_isort.__main__:main
