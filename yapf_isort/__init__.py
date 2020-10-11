@@ -11,15 +11,14 @@ yapf 💌 isort
 #
 
 # stdlib
-import difflib
-from typing import Optional, Sequence
+from typing import Optional
 
 # 3rd party
 import isort  # type: ignore
 from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.stringlist import StringList
-from domdf_python_tools.terminal_colours import Colour, Fore
 from domdf_python_tools.typing import PathLike
+from domdf_python_tools.utils import coloured_diff
 from isort import Config
 from yapf.yapflib.yapf_api import FormatCode  # type: ignore
 
@@ -30,93 +29,9 @@ __license__: str = "Apache Software License"
 __version__: str = "0.3.1"
 __email__: str = "dominic@davis-foster.co.uk"
 
-__all__ = ["coloured_diff", "Reformatter", "reformat_file"]
+__all__ = ["Reformatter", "reformat_file"]
 
 # TODO: options for no colours in output and no diff when changes made.
-
-
-def coloured_diff(
-		a: Sequence[str],
-		b: Sequence[str],
-		fromfile: str = '',
-		tofile: str = '',
-		fromfiledate: str = '',
-		tofiledate: str = '',
-		n: int = 3,
-		lineterm: str = '\n',
-		removed_colour: Colour = Fore.RED,
-		added_colour: Colour = Fore.GREEN,
-		changed_colour: Colour = Fore.BLUE,
-		) -> str:
-	r"""
-	Compare two sequences of lines; generate the delta as a unified diff.
-
-	Unified diffs are a compact way of showing line changes and a few
-	lines of context.  The number of context lines is set by 'n' which
-	defaults to three.
-
-	By default, the diff control lines (those with ---, +++, or @@) are
-	created with a trailing newline.  This is helpful so that inputs
-	created from file.readlines() result in diffs that are suitable for
-	file.writelines() since both the inputs and outputs have trailing
-	newlines.
-
-	For inputs that do not have trailing newlines, set the lineterm
-	argument to "" so that the output will be uniformly newline free.
-
-	The unidiff format normally has a header for filenames and modification
-	times.  Any or all of these may be specified using strings for
-	'fromfile', 'tofile', 'fromfiledate', and 'tofiledate'.
-	The modification times are normally expressed in the ISO 8601 format.
-
-	Example:
-
-	>>> for line in coloured_diff('one two three four'.split(),
-	...             'zero one tree four'.split(), 'Original', 'Current',
-	...             '2005-01-26 23:30:50', '2010-04-02 10:20:52',
-	...             lineterm=''):
-	...     print(line)                 # doctest: +NORMALIZE_WHITESPACE
-	--- Original        2005-01-26 23:30:50
-	+++ Current         2010-04-02 10:20:52
-	@@ -1,4 +1,4 @@
-	+zero
-	one
-	-two
-	-three
-	+tree
-	four
-
-	:param a:
-	:param b:
-	:param fromfile:
-	:param tofile:
-	:param fromfiledate:
-	:param tofiledate:
-	:param n:
-	:param lineterm:
-	:param removed_colour: The :class:`~domdf_python_tools.terminal_colours.Colour` to use for lines that were removed.
-	:param added_colour: The :class:`~domdf_python_tools.terminal_colours.Colour` to use for lines that were added.
-	:param changed_colour: The :class:`~domdf_python_tools.terminal_colours.Colour` to use for lines that changed.
-
-	:return:
-	"""
-
-	buf = StringList()
-	diff = difflib.unified_diff(a, b, fromfile, tofile, fromfiledate, tofiledate, n, lineterm)
-
-	for line in diff:
-		if line.startswith('+'):
-			buf.append(added_colour(line))
-		elif line.startswith('-'):
-			buf.append(removed_colour(line))
-		elif line.startswith('^'):
-			buf.append(changed_colour(line))
-		else:
-			buf.append(line)
-
-	buf.blankline(ensure_single=True)
-
-	return str(buf)
 
 
 class Reformatter:
