@@ -67,7 +67,7 @@ class Visitor(ast.NodeVisitor):
 		self.unions: typing.List[typing.Tuple[ast.Subscript, Generic]] = []
 
 	def visit_Subscript(self, node: ast.Subscript) -> Any:
-		if node.value.id in collection_types:
+		if isinstance(node.value, ast.Name) and node.value.id in collection_types:
 			self.unions.append((node, Generic(node.value.id, UnionVisitor().visit(node.slice.value))))
 		else:
 			self.generic_visit(node)
