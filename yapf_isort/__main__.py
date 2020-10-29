@@ -11,13 +11,14 @@ yapf 💌 isort
 #
 
 # stdlib
-import argparse
 import fnmatch
 import re
 import sys
 from typing import List, Optional
 
 # 3rd party
+import click
+from consolekit import click_command
 from domdf_python_tools.paths import PathPlus
 
 # this package
@@ -26,50 +27,50 @@ from yapf_isort import reformat_file
 __all__ = ["main"]
 
 
-def main(argv: Optional[List[str]] = None) -> int:
+@click.argument("filename", type=click.STRING, nargs=-1)
+@click.option(
+		"--yapf-style",
+		type=click.STRING,
+		help="The name of the yapf style to use, or the path to a style file.",
+		default=".style.yapf",
+		show_default=True,
+		)
+@click.option(
+		"--isort-config",
+		type=PathPlus,
+		help="The path to the isort configuration file.",
+		default=".isort.cfg",
+		show_default=True,
+		)
+@click.option(
+		'-e',
+		'--exclude',
+		metavar='PATTERN',
+		type=list,
+		default=None,
+		help='patterns for files to exclude from formatting',
+		)
+@click_command()
+def cli(filename: str, yapf_style: str, isort_config: PathPlus, exclude: Optional[List[str]]):
 	"""
-
-	:param argv:
-
-	:return:
+	yapf 💌 isort
 	"""
-
-	parser = argparse.ArgumentParser(description="yapf 💌 isort")
-	parser.add_argument("filename", type=str, nargs="+", metavar="FILENAME")
-	parser.add_argument(
-			"--yapf-style",
-			type=str,
-			help="The name of the yapf style to use, or the path to a style file. (default: %(default)s)",
-			default=".style.yapf"
-			)
-	parser.add_argument(
-			"--isort-config",
-			type=PathPlus,
-			help="The path to the isort configuration file. (default: %(default)s)",
-			default=".isort.cfg"
-			)
-	parser.add_argument(
-			'-e',
-			'--exclude',
-			metavar='PATTERN',
-			action='append',
-			default=None,
-			help='patterns for files to exclude from formatting'
-			)
-
-	args = parser.parse_args(argv)
 
 	retv = 0
 
-	for filename in args.filename:
-		for pattern in args.exclude or []:
-			if re.match(fnmatch.translate(pattern), str(filename)):
+	for path in filename:
+		for pattern in exclude or []:
+			if re.match(fnmatch.translate(pattern), str(path)):
 				continue
 
-		retv |= reformat_file(filename, yapf_style=args.yapf_style, isort_config_file=args.isort_config)
+		retv |= reformat_file(path, yapf_style=yapf_style, isort_config_file=isort_config)
 
 	return retv
 
 
-if __name__ == '__main__':
-	sys.exit(main(sys.argv[1:]))
+def main():
+	return cli(obj={})
+
+
+if __name__ == "__main__":
+	sys.exit(main())

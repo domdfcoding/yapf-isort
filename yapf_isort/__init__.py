@@ -14,7 +14,9 @@ yapf 💌 isort
 from typing import Optional
 
 # 3rd party
+import click
 import isort  # type: ignore
+from consolekit.terminal_colours import resolve_color_default
 from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.stringlist import StringList
 from domdf_python_tools.typing import PathLike
@@ -39,8 +41,8 @@ class Reformatter:
 	Reformat a Python source file.
 
 	:param filename:
-	:param yapf_style:
-	:param isort_config:
+	:param yapf_style: The name of the yapf style, or the path to the yapf style file.
+	:param isort_config: The filename of the isort configuration file.
 	"""
 
 	def __init__(self, filename: PathLike, yapf_style: str, isort_config: Config):
@@ -110,7 +112,7 @@ class Reformatter:
 		self.file_to_format.write_text(self._reformatted_source)
 
 
-def reformat_file(filename: PathLike, yapf_style: str, isort_config_file: str) -> int:
+def reformat_file(filename: PathLike, yapf_style: str, isort_config_file: PathLike) -> int:
 	"""
 	Reformat the given file.
 
@@ -124,7 +126,7 @@ def reformat_file(filename: PathLike, yapf_style: str, isort_config_file: str) -
 	r = Reformatter(filename, yapf_style, isort_config)
 
 	if r.run():
-		print(r.get_diff())
+		click.echo(r.get_diff(), color=resolve_color_default())
 		ret = 1
 	else:
 		ret = 0
