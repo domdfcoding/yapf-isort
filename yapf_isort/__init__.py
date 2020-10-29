@@ -24,9 +24,11 @@ from domdf_python_tools.utils import coloured_diff
 from isort import Config
 from yapf.yapflib.yapf_api import FormatCode  # type: ignore
 
+# this package
+from yapf_isort.generics import reformat_generics
+
 __author__: str = "Dominic Davis-Foster"
 __copyright__: str = "2020 Dominic Davis-Foster"
-
 __license__: str = "Apache Software License"
 __version__: str = "0.3.3"
 __email__: str = "dominic@davis-foster.co.uk"
@@ -61,7 +63,9 @@ class Reformatter:
 		"""
 
 		yapfed_code = FormatCode(self._unformatted_source, style_config=self.yapf_style)[0]
-		isorted_code = StringList(isort.code(yapfed_code, config=self.isort_config))
+		generic_formatted_code = reformat_generics(yapfed_code)
+		# TODO: support spaces
+		isorted_code = StringList(isort.code(generic_formatted_code, config=self.isort_config))
 		isorted_code.blankline(ensure_single=True)
 		self._reformatted_source = str(isorted_code)
 
@@ -69,8 +73,7 @@ class Reformatter:
 
 	def get_diff(self) -> str:
 		"""
-
-		:return:
+		Returns the diff between the original and reformatted file content.
 		"""
 
 		# Based on yapf
