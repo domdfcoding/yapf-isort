@@ -24,7 +24,7 @@ from io import StringIO
 from typing import Any, Sequence, Union
 
 # 3rd party
-import asttokens
+import asttokens  # type: ignore
 from domdf_python_tools.stringlist import DelimitedList
 
 __all__ = ["Generic", "List", "Visitor", "UnionVisitor", "reformat_generics"]
@@ -43,7 +43,7 @@ class Generic:
 
 	def __init__(self, name: str, elements: Sequence[Union[str, "Generic"]]):
 		self.name = str(name)
-		self.elements = DelimitedList(elements)
+		self.elements = DelimitedList(elements)  # type: ignore
 
 	def __repr__(self) -> str:
 		return f"{self.name}[{self.elements:, }]"
@@ -52,7 +52,7 @@ class Generic:
 class List:
 
 	def __init__(self, elements: Sequence[Union[str, "Generic"]]):
-		self.elements = DelimitedList(elements)
+		self.elements = DelimitedList(elements)  # type: ignore
 
 	def __repr__(self) -> str:
 		return f"[{self.elements:, }]"
@@ -60,13 +60,13 @@ class List:
 
 class Visitor(ast.NodeVisitor):
 
-	def __init__(self, *args, **kwargs):
-		super().__init__(*args, **kwargs)
+	def __init__(self):
 		self.unions: typing.List[typing.Tuple[ast.Subscript, Generic]] = []
 
 	def visit_Subscript(self, node: ast.Subscript) -> Any:
 		if isinstance(node.value, ast.Name) and node.value.id in collection_types:
-			self.unions.append((node, Generic(node.value.id, UnionVisitor().visit(node.slice.value))))
+			union = Generic(node.value.id, UnionVisitor().visit(node.slice.value))  # type: ignore
+			self.unions.append((node, union))
 		else:
 			self.generic_visit(node)
 
@@ -77,8 +77,8 @@ class Visitor(ast.NodeVisitor):
 
 class UnionVisitor(ast.NodeVisitor):
 
-	def __init__(self, *args, **kwargs):
-		super().__init__(*args, **kwargs)
+	def __init__(self):
+		super().__init__()
 		self.structure = []
 
 	def visit_Name(self, node: ast.Name) -> Any:
@@ -86,19 +86,23 @@ class UnionVisitor(ast.NodeVisitor):
 
 	def visit_Attribute(self, node: ast.Attribute) -> Any:
 		parts = DelimitedList()
-		value = node.value
+		value: Union[ast.Name, ast.expr] = node.value
 
 		while True:
 			if isinstance(value, ast.Name):
 				parts.append(value.id)
 				break
 			elif isinstance(value, ast.Attribute):
-				value = value.attr
+				value = value.attr  # type: ignore
 
 		self.structure.append(f"{parts:.}.{node.attr}")
 
 	def visit_Subscript(self, node: ast.Subscript) -> Any:
-		self.structure.append(Generic(node.value.id, UnionVisitor().visit(node.slice.value)))
+		union = Generic(
+				node.value.id,  # type: ignore
+				UnionVisitor().visit(node.slice.value),  # type: ignore
+				)
+		self.structure.append(union)
 
 	def visit_List(self, node: ast.List) -> Any:
 		elements = []
