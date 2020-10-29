@@ -18,7 +18,6 @@ E.g.:
 
 # stdlib
 import ast
-import pathlib
 import typing
 from collections.abc import Collection
 from io import StringIO
@@ -26,7 +25,6 @@ from typing import Any, Sequence, Union
 
 # 3rd party
 import asttokens
-from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.stringlist import DelimitedList
 
 __all__ = ["Generic", "List", "Visitor", "UnionVisitor", "reformat_generics"]
@@ -86,6 +84,19 @@ class UnionVisitor(ast.NodeVisitor):
 	def visit_Name(self, node: ast.Name) -> Any:
 		self.structure.append(f"{node.id}")
 
+	def visit_Attribute(self, node: ast.Attribute) -> Any:
+		parts = DelimitedList()
+		value = node.value
+
+		while True:
+			if isinstance(value, ast.Name):
+				parts.append(value.id)
+				break
+			elif isinstance(value, ast.Attribute):
+				value = value.attr
+
+		self.structure.append(f"{parts:.}.{node.attr}")
+
 	def visit_Subscript(self, node: ast.Subscript) -> Any:
 		self.structure.append(Generic(node.value.id, UnionVisitor().visit(node.slice.value)))
 
@@ -122,13 +133,17 @@ def reformat_generics(source: str) -> str:
 		text_range = atok.get_text_range(union_node)
 		buf.write(source[offset:text_range[0]])
 
-		line_offset = source[offset:text_range[0]][::-1].index("\n")
+		reversed_line = source[offset:text_range[0]][::-1]
+		if "\n" in reversed_line:
+			line_offset = reversed_line.index("\n")
+		else:
+			line_offset = 0
 		representation = repr(union_obj)
 
 		if line_offset + len(repr(union_obj)) > 110:
 			# Line too long as is
 			# TODO: individual items that are too long
-			representation = f"{union_obj.name}[\n		{union_obj.elements:,\n		}\n		]"
+			representation = f"{union_obj.name}[\n		{union_obj.elements:,\n		},\n		]"
 
 		buf.write(representation)
 		offset = text_range[1]
