@@ -30,7 +30,7 @@ from yapf_isort.generics import reformat_generics
 __author__: str = "Dominic Davis-Foster"
 __copyright__: str = "2020 Dominic Davis-Foster"
 __license__: str = "Apache Software License"
-__version__: str = "0.4.0"
+__version__: str = "0.4.1"
 __email__: str = "dominic@davis-foster.co.uk"
 
 __all__ = ["Reformatter", "reformat_file"]
