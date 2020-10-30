@@ -41,7 +41,7 @@ while subclasses:
 
 class Generic:
 
-	def __init__(self, name: str, elements: Sequence[Union[str]]):
+	def __init__(self, name: str, elements: Sequence[Union[str, "Generic"]]):
 		self.name = str(name)
 		self.elements = DelimitedList(elements)  # type: ignore
 
@@ -51,7 +51,7 @@ class Generic:
 
 class List:
 
-	def __init__(self, elements: Sequence[Union[str]]):
+	def __init__(self, elements: Sequence[Union[str, Generic]]):
 		self.elements = DelimitedList(elements)  # type: ignore
 
 	def __repr__(self) -> str:
