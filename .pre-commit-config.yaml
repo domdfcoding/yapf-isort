@@ -56,7 +56,7 @@ repos:
     - id: forbid-crlf
 
  - repo: https://github.com/domdfcoding/yapf-isort
-   rev: cfb0baba499ab92639774a61df853ef88f1096b6
+   rev: v0.4.1
    hooks:
     - id: yapf-isort
       exclude: ^(doc-source/conf|__pkginfo__|make_conda_recipe|setup)\.py$
