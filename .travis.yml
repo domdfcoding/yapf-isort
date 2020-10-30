@@ -8,7 +8,6 @@ python:
   - '3.6'
   - '3.7'
   - '3.8'
-  - '3.9-dev'
 
 arch:
   - amd64
@@ -17,10 +16,12 @@ install:
 
   - pip install --upgrade pip
   - pip install tox tox-travis
-
+  - pip install coveralls coverage_pyver_pragma
 
 script:
   - tox -vv
+after_success:
+  - coveralls
 
 
 stages:
@@ -37,8 +38,6 @@ jobs:
     - python: '3.7'
       arch: arm64
     - python: '3.8'
-      arch: arm64
-    - python: '3.9-dev'
       arch: arm64
 
   include:
