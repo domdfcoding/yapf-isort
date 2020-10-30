@@ -41,7 +41,7 @@ while subclasses:
 
 class Generic:
 
-	def __init__(self, name: str, elements: Sequence[Union[str, "Generic"]]):
+	def __init__(self, name: str, elements: Sequence[Union[str]]):
 		self.name = str(name)
 		self.elements = DelimitedList(elements)  # type: ignore
 
@@ -51,7 +51,7 @@ class Generic:
 
 class List:
 
-	def __init__(self, elements: Sequence[Union[str, "Generic"]]):
+	def __init__(self, elements: Sequence[Union[str]]):
 		self.elements = DelimitedList(elements)  # type: ignore
 
 	def __repr__(self) -> str:
@@ -73,6 +73,15 @@ class Visitor(ast.NodeVisitor):
 	def visit(self, node: ast.AST) -> typing.List[typing.Tuple[ast.Subscript, Generic]]:
 		super().visit(node)
 		return self.unions
+
+	def visit_FunctionDef(self, node: ast.FunctionDef) -> Any:
+		return None
+
+	def visit_ClassDef(self, node: ast.ClassDef) -> Any:
+		return None
+
+	def visit_AsyncFunctionDef(self, node: ast.AsyncFunctionDef) -> Any:
+		return None
 
 
 class UnionVisitor(ast.NodeVisitor):
@@ -111,6 +120,15 @@ class UnionVisitor(ast.NodeVisitor):
 		self.structure.append(List(elements))
 
 	def visit_Load(self, node: ast.Load) -> None:
+		return None
+
+	def visit_FunctionDef(self, node: ast.FunctionDef) -> Any:
+		return None
+
+	def visit_ClassDef(self, node: ast.ClassDef) -> Any:
+		return None
+
+	def visit_AsyncFunctionDef(self, node: ast.AsyncFunctionDef) -> Any:
 		return None
 
 	def visit_Ellipsis(self, node: ast.Ellipsis) -> Any:
