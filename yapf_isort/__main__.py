@@ -51,7 +51,12 @@ __all__ = ["main"]
 		help='patterns for files to exclude from formatting',
 		)
 @click_command()
-def cli(filename: str, yapf_style: str, isort_config: PathPlus, exclude: Optional[List[str]]):
+def cli(
+		filename: str,
+		yapf_style: str,
+		isort_config: PathPlus,
+		exclude: Optional[List[str]],
+		) -> int:
 	"""
 	yapf 💌 isort
 	"""

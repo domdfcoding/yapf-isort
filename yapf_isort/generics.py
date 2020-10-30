@@ -21,6 +21,7 @@ import ast
 import typing
 from collections.abc import Collection
 from io import StringIO
+from textwrap import indent
 from typing import Any, Sequence, Union
 
 # 3rd party
@@ -47,6 +48,14 @@ class Generic:
 
 	def __repr__(self) -> str:
 		return f"{self.name}[{self.elements:, }]"
+
+	def format(self, line_offset: int = 0) -> str:
+		if line_offset + len(repr(self)) > 110:
+			# Line too long as is
+			elements = DelimitedList(indent(element.format(line_offset + 4), "\t") for element in self.elements)
+			return f"{self.name}[\n{elements:,\n},\n	]"
+		else:
+			return repr(self)
 
 
 class List:
@@ -89,6 +98,10 @@ class UnionVisitor(ast.NodeVisitor):
 	def __init__(self):
 		super().__init__()
 		self.structure = []
+
+	def generic_visit(self, node: ast.AST) -> Any:
+		print(node)
+		super().generic_visit(node)
 
 	def visit_Name(self, node: ast.Name) -> Any:
 		self.structure.append(f"{node.id}")
@@ -134,6 +147,12 @@ class UnionVisitor(ast.NodeVisitor):
 	def visit_Ellipsis(self, node: ast.Ellipsis) -> Any:
 		self.structure.append("...")
 
+	def visit_NameConstant(self, node: ast.NameConstant) -> Any:
+		self.structure.append(node.value)
+
+	def visit_Str(self, node: ast.Str) -> Any:
+		self.structure.append(f'"{node.s}"')
+
 	def visit(self, node: ast.AST) -> Any:
 		super().visit(node)
 		return self.structure
@@ -156,18 +175,13 @@ def reformat_generics(source: str) -> str:
 		buf.write(source[offset:text_range[0]])
 
 		reversed_line = source[offset:text_range[0]][::-1]
+
 		if "\n" in reversed_line:
 			line_offset = reversed_line.index("\n")
 		else:
 			line_offset = 0
-		representation = repr(union_obj)
 
-		if line_offset + len(repr(union_obj)) > 110:
-			# Line too long as is
-			# TODO: individual items that are too long
-			representation = f"{union_obj.name}[\n		{union_obj.elements:,\n		},\n		]"
-
-		buf.write(representation)
+		buf.write(union_obj.format((line_offset)))
 		offset = text_range[1]
 
 	buf.write(source[offset:])
