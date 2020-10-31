@@ -185,7 +185,7 @@ def reformat_generics(source: str) -> str:
 		else:
 			line_offset = 0
 
-		buf.write(union_obj.format((line_offset)))
+		buf.write(union_obj.format(line_offset))
 		offset = text_range[1]
 
 	buf.write(source[offset:])
