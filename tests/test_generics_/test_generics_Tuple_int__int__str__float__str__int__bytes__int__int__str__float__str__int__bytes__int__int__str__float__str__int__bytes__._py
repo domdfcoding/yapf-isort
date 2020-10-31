@@ -19,5 +19,5 @@ Tuple[
 	float,
 	str,
 	int,
-	bytes,
+	bytes
 	]

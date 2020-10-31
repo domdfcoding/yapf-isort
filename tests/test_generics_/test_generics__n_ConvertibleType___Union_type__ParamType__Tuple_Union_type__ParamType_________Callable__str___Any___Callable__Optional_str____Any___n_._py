@@ -4,5 +4,5 @@ _ConvertibleType = Union[
 	ParamType,
 	Tuple[Union[type, ParamType], ...],
 	Callable[[str], Any],
-	Callable[[Optional[str]], Any],
+	Callable[[Optional[str]], Any]
 	]

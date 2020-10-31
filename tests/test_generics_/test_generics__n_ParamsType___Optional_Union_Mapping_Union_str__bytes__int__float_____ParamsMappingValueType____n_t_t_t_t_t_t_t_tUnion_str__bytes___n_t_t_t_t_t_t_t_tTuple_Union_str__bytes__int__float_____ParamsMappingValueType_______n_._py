@@ -3,6 +3,6 @@ _ParamsType = Optional[
 	Union[
 		Mapping[Union[str, bytes, int, float], "_ParamsMappingValueType"],
 		Union[str, bytes],
-		Tuple[Union[str, bytes, int, float], "_ParamsMappingValueType"],
-		],
+		Tuple[Union[str, bytes, int, float], "_ParamsMappingValueType"]
+		]
 	]

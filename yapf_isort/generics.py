@@ -53,7 +53,7 @@ class Generic:
 		if line_offset + len(repr(self)) > 110:
 			# Line too long as is
 			elements = DelimitedList(indent(element.format(line_offset + 4), "\t") for element in self.elements)
-			return f"{self.name}[\n{elements:,\n},\n	]"
+			return f"{self.name}[\n{elements:,\n}\n	]"
 		else:
 			return repr(self)
 
