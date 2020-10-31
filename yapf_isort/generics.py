@@ -52,7 +52,12 @@ class Generic:
 	def format(self, line_offset: int = 0) -> str:
 		if line_offset + len(repr(self)) > 110:
 			# Line too long as is
-			elements = DelimitedList(indent(element.format(line_offset + 4), "\t") for element in self.elements)
+			elements = DelimitedList()
+			for element in self.elements:
+				if isinstance(element, Generic):
+					elements.append(indent(element.format(line_offset + 4), "\t"))
+				else:
+					elements.append(indent(str(element), "\t"))
 			return f"{self.name}[\n{elements:,\n}\n	]"
 		else:
 			return repr(self)
@@ -100,7 +105,6 @@ class UnionVisitor(ast.NodeVisitor):
 		self.structure = []
 
 	def generic_visit(self, node: ast.AST) -> Any:
-		print(node)
 		super().generic_visit(node)
 
 	def visit_Name(self, node: ast.Name) -> Any:
