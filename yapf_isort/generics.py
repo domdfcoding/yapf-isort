@@ -120,6 +120,8 @@ class UnionVisitor(ast.NodeVisitor):
 				break
 			elif isinstance(value, ast.Attribute):
 				value = value.attr  # type: ignore
+			else:
+				raise NotImplementedError
 
 		self.structure.append(f"{parts:.}.{node.attr}")
 
@@ -174,20 +176,25 @@ def reformat_generics(source: str) -> str:
 	visitor = Visitor()
 	atok = asttokens.ASTTokens(source, parse=True)
 
-	for union_node, union_obj in visitor.visit(atok.tree):
-		text_range = atok.get_text_range(union_node)
-		buf.write(source[offset:text_range[0]])
+	try:
+		for union_node, union_obj in visitor.visit(atok.tree):
+			text_range = atok.get_text_range(union_node)
+			buf.write(source[offset:text_range[0]])
 
-		reversed_line = source[offset:text_range[0]][::-1]
+			reversed_line = source[offset:text_range[0]][::-1]
 
-		if "\n" in reversed_line:
-			line_offset = reversed_line.index("\n")
-		else:
-			line_offset = 0
+			if "\n" in reversed_line:
+				line_offset = reversed_line.index("\n")
+			else:
+				line_offset = 0
 
-		buf.write(union_obj.format(line_offset))
-		offset = text_range[1]
+			buf.write(union_obj.format(line_offset))
+			offset = text_range[1]
 
-	buf.write(source[offset:])
+		buf.write(source[offset:])
 
-	return buf.getvalue()
+		return buf.getvalue()
+
+	except NotImplementedError as e:
+		print(f"An error occurred: {e}")
+		return source
