@@ -49,7 +49,7 @@ class Generic:
 	def __repr__(self) -> str:
 		return f"{self.name}[{self.elements:, }]"
 
-	def format(self, line_offset: int = 0) -> str:
+	def format(self, line_offset: int = 0) -> str:  # noqa: A003
 		if line_offset + len(repr(self)) > 110:
 			# Line too long as is
 			elements = DelimitedList()

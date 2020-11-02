@@ -42,5 +42,5 @@ _ParamsType = Optional[Union[Mapping[Union[str, bytes, int, float], "_ParamsMapp
 				example_2,
 				]
 		)
-def test_generics(input, file_regression: FileRegressionFixture):
+def test_generics(input, file_regression: FileRegressionFixture):  # noqa: A002
 	file_regression.check(reformat_generics(input), encoding="UTF-8", extension="._py")

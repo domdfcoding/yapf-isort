@@ -43,12 +43,12 @@ __all__ = ["main"]
 		show_default=True,
 		)
 @click.option(
-		'-e',
-		'--exclude',
-		metavar='PATTERN',
+		"-e",
+		"--exclude",
+		metavar="PATTERN",
 		type=list,
 		default=None,
-		help='patterns for files to exclude from formatting',
+		help="patterns for files to exclude from formatting",
 		)
 @click_command()
 def cli(

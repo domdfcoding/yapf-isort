@@ -89,8 +89,8 @@ class Reformatter:
 				after,
 				self.filename,
 				self.filename,
-				'(original)',
-				'(reformatted)',
+				"(original)",
+				"(reformatted)",
 				lineterm='',
 				)
 
