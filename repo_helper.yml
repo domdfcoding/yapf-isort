@@ -14,6 +14,7 @@ enable_docs: False
 
 console_scripts:
   - yapf_isort=yapf_isort.__main__:main
+  - yapf-isort=yapf_isort.__main__:main
 
 python_versions:
   - 3.6

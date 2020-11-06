@@ -195,6 +195,6 @@ def reformat_generics(source: str) -> str:
 
 		return buf.getvalue()
 
-	except NotImplementedError as e:
+	except NotImplementedError as e:  # pragma: no cover
 		print(f"An error occurred: {e}")
 		return source
