@@ -4,7 +4,6 @@ import pytest
 # this package
 from yapf_isort.quotes import reformat_quotes
 
-
 value_1 = """\
 status_codes: Dict[str, str] = {
 		"add": "A",
@@ -12,7 +11,6 @@ status_codes: Dict[str, str] = {
 		"modify": "M",
 		}
 """
-
 
 expected_1 = """\
 status_codes: Dict[str, str] = {
@@ -23,7 +21,9 @@ status_codes: Dict[str, str] = {
 """
 
 
-@pytest.mark.parametrize("value, expects", [
+@pytest.mark.parametrize(
+		"value, expects",
+		[
 				("'hello world'", '"hello world"'),
 				("''", "''"),
 				('""', "''"),
@@ -44,7 +44,7 @@ status_codes: Dict[str, str] = {
 				('"quote \\""', "'quote \"'"),
 				("'\\''", '"\'"'),
 				("'quote \\''", '"quote \'"'),
-				(value_1, expected_1)
+				(value_1, expected_1),
 				]
 		)
 def test_quotes(value, expects):

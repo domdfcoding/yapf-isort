@@ -23,10 +23,10 @@ from domdf_python_tools.typing import PathLike
 from domdf_python_tools.utils import coloured_diff
 from isort import Config
 from yapf.yapflib.yapf_api import FormatCode  # type: ignore
-from yapf_isort.quotes import reformat_quotes
 
 # this package
 from yapf_isort.generics import reformat_generics
+from yapf_isort.quotes import reformat_quotes
 
 __author__: str = "Dominic Davis-Foster"
 __copyright__: str = "2020 Dominic Davis-Foster"
