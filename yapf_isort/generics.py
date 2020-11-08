@@ -65,7 +65,7 @@ class Generic:
 
 class List:
 
-	def __init__(self, elements: Sequence[Union[str, Generic]]):
+	def __init__(self, elements: Sequence[Union[str, Generic, "List"]]):
 		self.elements = DelimitedList(elements)  # type: ignore
 
 	def __repr__(self) -> str:
@@ -102,15 +102,15 @@ class UnionVisitor(ast.NodeVisitor):
 
 	def __init__(self):
 		super().__init__()
-		self.structure = []
+		self.structure: typing.List[Union[str, Generic, List]] = []
 
-	def generic_visit(self, node: ast.AST) -> Any:
+	def generic_visit(self, node: ast.AST) -> None:
 		super().generic_visit(node)
 
-	def visit_Name(self, node: ast.Name) -> Any:
+	def visit_Name(self, node: ast.Name) -> None:
 		self.structure.append(f"{node.id}")
 
-	def visit_Attribute(self, node: ast.Attribute) -> Any:
+	def visit_Attribute(self, node: ast.Attribute) -> None:
 		parts = DelimitedList()
 		value: Union[ast.Name, ast.expr] = node.value
 
@@ -125,14 +125,14 @@ class UnionVisitor(ast.NodeVisitor):
 
 		self.structure.append(f"{parts:.}.{node.attr}")
 
-	def visit_Subscript(self, node: ast.Subscript) -> Any:
+	def visit_Subscript(self, node: ast.Subscript) -> None:
 		union = Generic(
 				node.value.id,  # type: ignore
 				UnionVisitor().visit(node.slice.value),  # type: ignore
 				)
 		self.structure.append(union)
 
-	def visit_List(self, node: ast.List) -> Any:
+	def visit_List(self, node: ast.List) -> None:
 		elements = []
 		for child in node.elts:
 			elements.extend(UnionVisitor().visit(child))
@@ -141,25 +141,25 @@ class UnionVisitor(ast.NodeVisitor):
 	def visit_Load(self, node: ast.Load) -> None:
 		return None
 
-	def visit_FunctionDef(self, node: ast.FunctionDef) -> Any:
+	def visit_FunctionDef(self, node: ast.FunctionDef) -> None:
 		return None
 
-	def visit_ClassDef(self, node: ast.ClassDef) -> Any:
+	def visit_ClassDef(self, node: ast.ClassDef) -> None:
 		return None
 
-	def visit_AsyncFunctionDef(self, node: ast.AsyncFunctionDef) -> Any:
+	def visit_AsyncFunctionDef(self, node: ast.AsyncFunctionDef) -> None:
 		return None
 
-	def visit_Ellipsis(self, node: ast.Ellipsis) -> Any:
+	def visit_Ellipsis(self, node: ast.Ellipsis) -> None:
 		self.structure.append("...")
 
-	def visit_NameConstant(self, node: ast.NameConstant) -> Any:
+	def visit_NameConstant(self, node: ast.NameConstant) -> None:
 		self.structure.append(node.value)
 
-	def visit_Str(self, node: ast.Str) -> Any:
+	def visit_Str(self, node: ast.Str) -> None:
 		self.structure.append(f'"{node.s}"')
 
-	def visit(self, node: ast.AST) -> Any:
+	def visit(self, node: ast.AST) -> typing.List[Union[str, Generic, List]]:
 		super().visit(node)
 		return self.structure
 

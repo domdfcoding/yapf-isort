@@ -15,7 +15,7 @@ import ast
 import json
 import re
 from io import StringIO
-from typing import Any
+from typing import List
 
 # 3rd party
 import asttokens  # type: ignore
@@ -27,12 +27,12 @@ class Visitor(ast.NodeVisitor):
 
 	def __init__(self):
 		super().__init__()
-		self.string_nodes = []
+		self.string_nodes: List[ast.Str] = []
 
-	def visit_Str(self, node: ast.Str) -> Any:
+	def visit_Str(self, node: ast.Str) -> None:
 		self.string_nodes.append(node)
 
-	def visit(self, node: ast.AST) -> Any:
+	def visit(self, node: ast.AST) -> List[ast.Str]:
 		super().visit(node)
 		return self.string_nodes
 
