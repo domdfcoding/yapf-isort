@@ -29,17 +29,27 @@ _ParamsType = Optional[Union[Mapping[Union[str, bytes, int, float], "_ParamsMapp
 @pytest.mark.parametrize(
 		"input",
 		[
-				"Union[str, int, float]",
-				"Mapping[str, int]",
-				"List[str]",
-				"Tuple[int, int, str, float, str, int, bytes]",
-				"Optional[Callable[[Optional[str]], Any]]",
-				"_ParamsMappingValueType = Union[str, bytes, int, float, Iterable[Union[str, bytes, int, float]]]",
-				"_Data = Union[None, str, bytes, MutableMapping[str, Any], Iterable[Tuple[str, Optional[str]]], IO]",
-				"Tuple[int, int, str, float, str, int, bytes, int, int, str, float, str, int, bytes, int, int, str, float, str, int, bytes]",
-				example_1,
-				example_1a,
-				example_2,
+				pytest.param("Union[str, int, float]", id="Simple Union"),
+				pytest.param("Mapping[str, int]", id="Simple Mapping"),
+				pytest.param("Mapping[str, int]", id="Simple Mapping"),
+				pytest.param("List[str]", id="Simple List"),
+				pytest.param("Tuple[int, int, str, float, str, int, bytes]", id="Simple Tuple"),
+				pytest.param(
+						"Tuple[int, int, str, float, str, int, bytes, int, int, str, float, str, int, bytes, int, int, str, float, str, int, bytes]",
+						id="Long Tuple"
+						),
+				pytest.param("Optional[Callable[[Optional[str]], Any]]", id="Complex Optional"),
+				pytest.param(
+						"_ParamsMappingValueType = Union[str, bytes, int, float, Iterable[Union[str, bytes, int, float]]]",
+						id="Complex Alias 1"
+						),
+				pytest.param(
+						"_Data = Union[None, str, bytes, MutableMapping[str, Any], Iterable[Tuple[str, Optional[str]]], IO]",
+						id="Complex Alias 2"
+						),
+				pytest.param(example_1, id="Multiline 1"),
+				pytest.param(example_1a, id="Multiline 1a"),
+				pytest.param(example_2, id="Multiline 2"),
 				]
 		)
 def test_generics(input, file_regression: FileRegressionFixture):  # noqa: A002
