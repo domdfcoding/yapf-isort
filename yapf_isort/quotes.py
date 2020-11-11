@@ -79,6 +79,8 @@ def reformat_quotes(source: str) -> str:
 				buf.write(source[text_range[0]:text_range[1]])
 			elif len(string_node.s) == 1:
 				buf.write(repr(string_node.s))
+			elif "\n" in source[text_range[0]:text_range[1]]:
+				buf.write(source[text_range[0]:text_range[1]])
 			elif "\n" in string_node.s or "\\n" in string_node.s:
 				buf.write(source[text_range[0]:text_range[1]])
 			else:

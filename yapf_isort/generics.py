@@ -136,9 +136,13 @@ class UnionVisitor(ast.NodeVisitor):  # noqa: D101
 				parts.append(value.id)
 				break
 			elif isinstance(value, ast.Attribute):
+				parts.append(value.value.id)
 				value = value.attr  # type: ignore
+			elif isinstance(value, str):
+				parts.append(value)
+				break
 			else:
-				raise NotImplementedError
+				raise NotImplementedError(f"Unsupported value type {type(value)}")
 
 		self.structure.append(f"{parts:.}.{node.attr}")
 
