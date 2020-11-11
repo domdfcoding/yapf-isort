@@ -67,9 +67,9 @@ class Generic:
 			elements = DelimitedList()
 			for element in self.elements:
 				if isinstance(element, Generic):
-					elements.append(indent(element.format(line_offset + 4), "\t"))
+					elements.append(indent(element.format(line_offset + 4), '\t'))
 				else:
-					elements.append(indent(str(element), "\t"))
+					elements.append(indent(str(element), '\t'))
 			return f"{self.name}[\n{elements:,\n}\n	]"
 		else:
 			return repr(self)
@@ -204,8 +204,8 @@ def reformat_generics(source: str) -> str:
 
 			reversed_line = source[offset:text_range[0]][::-1]
 
-			if "\n" in reversed_line:
-				line_offset = reversed_line.index("\n")
+			if '\n' in reversed_line:
+				line_offset = reversed_line.index('\n')
 			else:
 				line_offset = 0
 
