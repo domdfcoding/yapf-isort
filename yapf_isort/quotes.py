@@ -46,7 +46,7 @@ def double_repr(string: str):
 	if '"' in string and "'" not in string:
 		return repr(string)
 	else:
-		return json.dumps(string)
+		return json.dumps(string, ensure_ascii=False)
 
 
 def reformat_quotes(source: str) -> str:
