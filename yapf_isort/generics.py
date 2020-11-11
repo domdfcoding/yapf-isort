@@ -136,7 +136,7 @@ class UnionVisitor(ast.NodeVisitor):  # noqa: D101
 				parts.append(value.id)
 				break
 			elif isinstance(value, ast.Attribute):
-				parts.append(value.value.id)
+				parts.append(value.value.id)  # type: ignore
 				value = value.attr  # type: ignore
 			elif isinstance(value, str):
 				parts.append(value)
