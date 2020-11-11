@@ -56,7 +56,7 @@ def main(
 		yapf_style: str,
 		isort_config: PathPlus,
 		exclude: Optional[List[str]],
-		) -> int:
+		):
 	"""
 	yapf 💌 isort
 	"""
