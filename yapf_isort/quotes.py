@@ -23,16 +23,16 @@ import asttokens  # type: ignore
 __all__ = ["Visitor", "double_repr", "reformat_quotes"]
 
 
-class Visitor(ast.NodeVisitor):
+class Visitor(ast.NodeVisitor):  # noqa: D101
 
 	def __init__(self):
 		super().__init__()
 		self.string_nodes: List[ast.Str] = []
 
-	def visit_Str(self, node: ast.Str) -> None:
+	def visit_Str(self, node: ast.Str) -> None:  # noqa: D102
 		self.string_nodes.append(node)
 
-	def visit(self, node: ast.AST) -> List[ast.Str]:
+	def visit(self, node: ast.AST) -> List[ast.Str]:  # noqa: D102
 		super().visit(node)
 		return self.string_nodes
 

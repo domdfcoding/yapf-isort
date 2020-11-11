@@ -31,7 +31,6 @@ _ParamsType = Optional[Union[Mapping[Union[str, bytes, int, float], "_ParamsMapp
 		[
 				pytest.param("Union[str, int, float]", id="Simple Union"),
 				pytest.param("Mapping[str, int]", id="Simple Mapping"),
-				pytest.param("Mapping[str, int]", id="Simple Mapping"),
 				pytest.param("List[str]", id="Simple List"),
 				pytest.param("Tuple[int, int, str, float, str, int, bytes]", id="Simple Tuple"),
 				pytest.param(

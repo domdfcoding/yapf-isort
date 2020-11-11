@@ -3,7 +3,7 @@
 #  __main__.py
 """
 yapf 💌 isort
-"""
+"""  # noqa: D400
 #
 #  Copyright © 2020 Dominic Davis-Foster <dominic@davis-foster.co.uk>
 #  License: Apache Software License 2.0
@@ -51,7 +51,7 @@ __all__ = ["main"]
 		help="patterns for files to exclude from formatting",
 		)
 @click_command()
-def cli(
+def main(
 		filename: str,
 		yapf_style: str,
 		isort_config: PathPlus,
@@ -59,7 +59,7 @@ def cli(
 		) -> int:
 	"""
 	yapf 💌 isort
-	"""
+	"""  # noqa: D400,D403
 
 	retv = 0
 
@@ -70,11 +70,7 @@ def cli(
 
 		retv |= reformat_file(path, yapf_style=yapf_style, isort_config_file=isort_config)
 
-	return retv
-
-
-def main():
-	return cli(obj={})
+	sys.exit(retv)
 
 
 if __name__ == "__main__":

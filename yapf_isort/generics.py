@@ -41,6 +41,12 @@ while subclasses:
 
 
 class Generic:
+	"""
+	Represents a :class:`typing.Generic`, :py:obj:`typing.Union`, :class:`typing.Callable` etc.
+
+	:param name: The name of the Generic
+	:param elements: The ``__class_getitem__`` elements of the Generic.
+	"""
 
 	def __init__(self, name: str, elements: Sequence[Union[str, "Generic"]]):
 		self.name = str(name)
@@ -50,6 +56,12 @@ class Generic:
 		return f"{self.name}[{self.elements:, }]"
 
 	def format(self, line_offset: int = 0) -> str:  # noqa: A003
+		"""
+		Formats the :class:`~.Generic`.
+
+		:param line_offset:
+		"""
+
 		if line_offset + len(repr(self)) > 110:
 			# Line too long as is
 			elements = DelimitedList()
@@ -64,6 +76,11 @@ class Generic:
 
 
 class List:
+	"""
+	Represents a list of elements, most often used within a :class:`typing.Callable`.
+
+	:param elements:
+	"""
 
 	def __init__(self, elements: Sequence[Union[str, Generic, "List"]]):
 		self.elements = DelimitedList(elements)  # type: ignore
@@ -72,45 +89,45 @@ class List:
 		return f"[{self.elements:, }]"
 
 
-class Visitor(ast.NodeVisitor):
+class Visitor(ast.NodeVisitor):  # noqa: D101
 
 	def __init__(self):
 		self.unions: typing.List[typing.Tuple[ast.Subscript, Generic]] = []
 
-	def visit_Subscript(self, node: ast.Subscript) -> Any:
+	def visit_Subscript(self, node: ast.Subscript) -> None:  # noqa: D102
 		if isinstance(node.value, ast.Name) and node.value.id in collection_types:
 			union = Generic(node.value.id, UnionVisitor().visit(node.slice.value))  # type: ignore
 			self.unions.append((node, union))
 		else:
 			self.generic_visit(node)
 
-	def visit(self, node: ast.AST) -> typing.List[typing.Tuple[ast.Subscript, Generic]]:
+	def visit(self, node: ast.AST) -> typing.List[typing.Tuple[ast.Subscript, Generic]]:  # noqa: D102
 		super().visit(node)
 		return self.unions
 
-	def visit_FunctionDef(self, node: ast.FunctionDef) -> Any:
+	def visit_FunctionDef(self, node: ast.FunctionDef) -> None:  # noqa: D102
 		return None
 
-	def visit_ClassDef(self, node: ast.ClassDef) -> Any:
+	def visit_ClassDef(self, node: ast.ClassDef) -> None:  # noqa: D102
 		return None
 
-	def visit_AsyncFunctionDef(self, node: ast.AsyncFunctionDef) -> Any:
+	def visit_AsyncFunctionDef(self, node: ast.AsyncFunctionDef) -> None:  # noqa: D102
 		return None
 
 
-class UnionVisitor(ast.NodeVisitor):
+class UnionVisitor(ast.NodeVisitor):  # noqa: D101
 
 	def __init__(self):
 		super().__init__()
 		self.structure: typing.List[Union[str, Generic, List]] = []
 
-	def generic_visit(self, node: ast.AST) -> None:
+	def generic_visit(self, node: ast.AST) -> None:  # noqa: D102
 		super().generic_visit(node)
 
-	def visit_Name(self, node: ast.Name) -> None:
+	def visit_Name(self, node: ast.Name) -> None:  # noqa: D102
 		self.structure.append(f"{node.id}")
 
-	def visit_Attribute(self, node: ast.Attribute) -> None:
+	def visit_Attribute(self, node: ast.Attribute) -> None:  # noqa: D102
 		parts = DelimitedList()
 		value: Union[ast.Name, ast.expr] = node.value
 
@@ -125,41 +142,41 @@ class UnionVisitor(ast.NodeVisitor):
 
 		self.structure.append(f"{parts:.}.{node.attr}")
 
-	def visit_Subscript(self, node: ast.Subscript) -> None:
+	def visit_Subscript(self, node: ast.Subscript) -> None:  # noqa: D102
 		union = Generic(
 				node.value.id,  # type: ignore
 				UnionVisitor().visit(node.slice.value),  # type: ignore
 				)
 		self.structure.append(union)
 
-	def visit_List(self, node: ast.List) -> None:
+	def visit_List(self, node: ast.List) -> None:  # noqa: D102
 		elements = []
 		for child in node.elts:
 			elements.extend(UnionVisitor().visit(child))
 		self.structure.append(List(elements))
 
-	def visit_Load(self, node: ast.Load) -> None:
+	def visit_Load(self, node: ast.Load) -> None:  # noqa: D102
 		return None
 
-	def visit_FunctionDef(self, node: ast.FunctionDef) -> None:
+	def visit_FunctionDef(self, node: ast.FunctionDef) -> None:  # noqa: D102
 		return None
 
-	def visit_ClassDef(self, node: ast.ClassDef) -> None:
+	def visit_ClassDef(self, node: ast.ClassDef) -> None:  # noqa: D102
 		return None
 
-	def visit_AsyncFunctionDef(self, node: ast.AsyncFunctionDef) -> None:
+	def visit_AsyncFunctionDef(self, node: ast.AsyncFunctionDef) -> None:  # noqa: D102
 		return None
 
-	def visit_Ellipsis(self, node: ast.Ellipsis) -> None:
+	def visit_Ellipsis(self, node: ast.Ellipsis) -> None:  # noqa: D102
 		self.structure.append("...")
 
-	def visit_NameConstant(self, node: ast.NameConstant) -> None:
+	def visit_NameConstant(self, node: ast.NameConstant) -> None:  # noqa: D102
 		self.structure.append(node.value)
 
-	def visit_Str(self, node: ast.Str) -> None:
+	def visit_Str(self, node: ast.Str) -> None:  # noqa: D102
 		self.structure.append(f'"{node.s}"')
 
-	def visit(self, node: ast.AST) -> typing.List[Union[str, Generic, List]]:
+	def visit(self, node: ast.AST) -> typing.List[Union[str, Generic, List]]:  # noqa: D102
 		super().visit(node)
 		return self.structure
 

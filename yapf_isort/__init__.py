@@ -3,7 +3,7 @@
 #  __init__.py
 """
 yapf 💌 isort
-"""
+"""  # noqa: D400
 #
 #  Copyright © 2020 Dominic Davis-Foster <dominic@davis-foster.co.uk>
 #  License: Apache Software License 2.0
