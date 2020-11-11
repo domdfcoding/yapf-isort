@@ -1,6 +1,6 @@
 asttokens>=2.0.4
 click>=7.1.2
-consolekit>=0.1.2
+consolekit>=0.3.0
 domdf-python-tools>=0.10.0
 isort==5.5.2
 yapf==0.30.0
