@@ -22,6 +22,7 @@ from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.stringlist import StringList
 from domdf_python_tools.typing import PathLike
 from isort import Config
+from isort.exceptions import FileSkipComment
 from yapf.yapflib.yapf_api import FormatCode  # type: ignore
 
 # this package
@@ -31,7 +32,7 @@ from yapf_isort.quotes import reformat_quotes
 __author__: str = "Dominic Davis-Foster"
 __copyright__: str = "2020 Dominic Davis-Foster"
 __license__: str = "Apache Software License"
-__version__: str = "0.5.1"
+__version__: str = "0.5.0"
 __email__: str = "dominic@davis-foster.co.uk"
 
 __all__ = ["Reformatter", "reformat_file"]
@@ -67,8 +68,14 @@ class Reformatter:
 		yapfed_code = FormatCode(quote_formatted_code, style_config=self.yapf_style)[0]
 		generic_formatted_code = reformat_generics(yapfed_code)
 		# TODO: support spaces
-		isorted_code = StringList(isort.code(generic_formatted_code, config=self.isort_config))
+
+		try:
+			isorted_code = StringList(isort.code(generic_formatted_code, config=self.isort_config))
+		except FileSkipComment:
+			isorted_code = StringList(generic_formatted_code)
+
 		isorted_code.blankline(ensure_single=True)
+
 		self._reformatted_source = str(isorted_code)
 		# self._reformatted_source = quote_formatted_code
 
