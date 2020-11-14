@@ -22,7 +22,7 @@ from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.stringlist import StringList
 from domdf_python_tools.typing import PathLike
 from isort import Config
-from isort.exceptions import FileSkipComment
+from isort.exceptions import FileSkipComment  # type: ignore
 from yapf.yapflib.yapf_api import FormatCode  # type: ignore
 
 # this package

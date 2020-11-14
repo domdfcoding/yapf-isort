@@ -50,7 +50,7 @@ class Generic:
 
 	def __init__(self, name: str, elements: Sequence[Union[str, "Generic"]]):
 		self.name = str(name)
-		self.elements = DelimitedList(elements)  # type: ignore
+		self.elements: DelimitedList[Union[str, Generic]] = DelimitedList(elements)
 
 	def __repr__(self) -> str:
 		return f"{self.name}[{self.elements:, }]"
@@ -64,7 +64,7 @@ class Generic:
 
 		if line_offset + len(repr(self)) > 110:
 			# Line too long as is
-			elements = DelimitedList()
+			elements: DelimitedList[str] = DelimitedList()
 			for element in self.elements:
 				if isinstance(element, Generic):
 					elements.append(indent(element.format(line_offset + 4), '\t'))
@@ -83,7 +83,7 @@ class List:
 	"""
 
 	def __init__(self, elements: Sequence[Union[str, Generic, "List"]]):
-		self.elements = DelimitedList(elements)  # type: ignore
+		self.elements = DelimitedList(elements)
 
 	def __repr__(self) -> str:
 		return f"[{self.elements:, }]"
@@ -128,7 +128,7 @@ class UnionVisitor(ast.NodeVisitor):  # noqa: D101
 		self.structure.append(f"{node.id}")
 
 	def visit_Attribute(self, node: ast.Attribute) -> None:  # noqa: D102
-		parts = DelimitedList()
+		parts: DelimitedList[str] = DelimitedList()
 		value: Union[ast.Name, ast.expr] = node.value
 
 		while True:
