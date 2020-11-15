@@ -14,6 +14,7 @@ Reformatter for quotes.
 import ast
 import json
 import re
+import sys
 from io import StringIO
 from typing import List
 
@@ -29,8 +30,17 @@ class Visitor(ast.NodeVisitor):  # noqa: D101
 		super().__init__()
 		self.string_nodes: List[ast.Str] = []
 
-	def visit_Str(self, node: ast.Str) -> None:  # noqa: D102
-		self.string_nodes.append(node)
+	if sys.version_info[:2] < (3, 8):
+
+		def visit_Str(self, node: ast.Str) -> None:  # noqa: D102
+			self.string_nodes.append(node)
+	else:
+
+		def visit_Constant(self, node: ast.Constant) -> None:  # noqa: D102
+			if isinstance(node.value, str):
+				self.string_nodes.append(node)
+			else:
+				self.generic_visit(node)
 
 	def visit(self, node: ast.AST) -> List[ast.Str]:  # noqa: D102
 		super().visit(node)

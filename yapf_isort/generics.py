@@ -18,6 +18,7 @@ E.g.:
 
 # stdlib
 import ast
+import sys
 import typing
 from collections.abc import Collection
 from io import StringIO
@@ -171,14 +172,29 @@ class UnionVisitor(ast.NodeVisitor):  # noqa: D101
 	def visit_AsyncFunctionDef(self, node: ast.AsyncFunctionDef) -> None:  # noqa: D102
 		return None
 
-	def visit_Ellipsis(self, node: ast.Ellipsis) -> None:  # noqa: D102
-		self.structure.append("...")
-
 	def visit_NameConstant(self, node: ast.NameConstant) -> None:  # noqa: D102
 		self.structure.append(node.value)
 
-	def visit_Str(self, node: ast.Str) -> None:  # noqa: D102
-		self.structure.append(f'"{node.s}"')
+	if sys.version_info[:2] < (3, 8):
+
+		def visit_Str(self, node: ast.Str) -> None:  # noqa: D102
+			self.structure.append(f'"{node.s}"')
+
+		def visit_Ellipsis(self, node: ast.Ellipsis) -> None:  # noqa: D102
+			self.structure.append("...")
+
+	else:
+
+		def visit_Constant(self, node: ast.Constant) -> None:  # noqa: D102
+			if isinstance(node.value, str):
+				self.structure.append(f'"{node.value}"')
+			elif node.value is Ellipsis:
+				self.structure.append("...")
+			elif node.value is None:
+				self.structure.append(node.value)
+			else:
+				print(node, node.value)
+				self.generic_visit(node)
 
 	def visit(self, node: ast.AST) -> typing.List[Union[str, Generic, List]]:  # noqa: D102
 		super().visit(node)
