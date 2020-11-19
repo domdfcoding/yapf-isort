@@ -28,10 +28,11 @@ from typing import Any, Sequence, Union
 # 3rd party
 import asttokens  # type: ignore
 from domdf_python_tools.stringlist import DelimitedList
+from domdf_python_tools.words import TAB
 
 __all__ = ["Generic", "List", "Visitor", "UnionVisitor", "reformat_generics"]
 
-collection_types = {"Union", "List", "Tuple", "Set", "Dict", "Callable", "Optional"}
+collection_types = {"Union", "List", "Tuple", "Set", "Dict", "Callable", "Optional", "Literal"}
 
 subclasses = [Collection]
 while subclasses:
@@ -110,7 +111,7 @@ class Visitor(ast.NodeVisitor):  # noqa: D101
 		return None
 
 	def visit_ClassDef(self, node: ast.ClassDef) -> None:  # noqa: D102
-		return None
+		self.generic_visit(node)
 
 	def visit_AsyncFunctionDef(self, node: ast.AsyncFunctionDef) -> None:  # noqa: D102
 		return None
@@ -225,7 +226,14 @@ def reformat_generics(source: str) -> str:
 			else:
 				line_offset = 0
 
-			buf.write(union_obj.format(line_offset))
+			formatted_obj = union_obj.format(line_offset).splitlines(True)
+
+			buf.write(formatted_obj[0])
+			indent = (len(reversed_line) - len(reversed_line.rstrip()))
+
+			for line in formatted_obj[1:]:
+				buf.write(f"{TAB * (indent + 1)}{line}")
+
 			offset = text_range[1]
 
 		buf.write(source[offset:])
