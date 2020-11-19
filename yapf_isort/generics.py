@@ -168,7 +168,7 @@ class UnionVisitor(ast.NodeVisitor):  # noqa: D101
 		return None
 
 	def visit_ClassDef(self, node: ast.ClassDef) -> None:  # noqa: D102
-		return None
+		self.generic_visit(node)
 
 	def visit_AsyncFunctionDef(self, node: ast.AsyncFunctionDef) -> None:  # noqa: D102
 		return None
