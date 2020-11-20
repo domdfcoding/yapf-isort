@@ -93,19 +93,19 @@ jobs:
           python .github/relative_coverage.py
           echo "$(pwd)"
 
-      - name: "Upload Combined Coverage"
+      - name: "Upload Combined Coverage to Coveralls"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           coveralls
-#
-#      - name: "Upload Combined Coverage"
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: "combined-coverage"
-#          path: .coverage
 
-#
+      - name: "Upload Combined Coverage Aretfact"
+        uses: actions/upload-artifact@v2
+        with:
+          name: "combined-coverage"
+          path: .coverage
+
+
 
 #      - name: Coveralls Finished
 #        uses: AndreMiras/coveralls-python-action@develop
