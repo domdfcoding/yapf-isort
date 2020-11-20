@@ -79,7 +79,7 @@ jobs:
 
       - name: "Upload Combined Coverage to Coveralls"
         env:
-          GITHUB_TOKEN: ${{ secrets.pypi_password }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           coveralls
 
@@ -98,6 +98,6 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         uses: pypa/gh-action-pypi-publish@master
         with:
-          user: DomDF
+          user: __token__
           password: ${{ secrets.pypi_password }}
           skip_existing: true
