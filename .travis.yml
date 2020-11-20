@@ -7,17 +7,20 @@ dist: focal
 cache: pip
 python:
   - '3.6'
-
 arch:
   - arm64
 install:
 
   - pip install --upgrade pip
   - pip install tox tox-travis
-  - pip install coverage_pyver_pragma
 
 script:
   - tox -vv
 
 stages:
   - test
+
+
+jobs:
+  allow_failures:
+    - arch: arm64
