@@ -75,7 +75,17 @@ jobs:
           user: __token__
           password: ${{ secrets.pypi_password }}
           skip_existing: true
+
+      - name: "Download Coverage"
+        uses: actions/download-artifact@v2
+        with:
+          path: path/to/artifacts
+
+      - name: Display structure of downloaded files
+        run: ls -R
+        working-directory: path/to/artifacts
 #
+
 #      - name: Coveralls Finished
 #        uses: AndreMiras/coveralls-python-action@develop
 #        with:
