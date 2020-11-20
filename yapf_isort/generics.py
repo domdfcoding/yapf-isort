@@ -236,10 +236,12 @@ def reformat_generics(source: str) -> str:
 
 			formatted_obj = StringList(union_obj.format(line_offset))
 
-			if in_class:
+			if in_class and len(formatted_obj) > 1:
 				buf.write(formatted_obj[0])
 				buf.write('\n')
 				buf.write(textwrap.indent(str(StringList(formatted_obj[1:])), TAB))
+			elif in_class:
+				buf.write(formatted_obj[0])
 			else:
 				buf.write(str(formatted_obj))
 
