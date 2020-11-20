@@ -19,7 +19,6 @@ jobs:
       matrix:
         python-version: ["3.6","3.7","3.8"]
 
-
     steps:
       - name: Checkout 🛎️
         uses: "actions/checkout@v2"
@@ -43,7 +42,6 @@ jobs:
         with:
           name: "coverage-${{ matrix.python-version }}"
           path: .coverage
-
 
   finish:
     needs: tests
@@ -77,17 +75,17 @@ jobs:
           shopt -s globstar
           python -m coverage combine coverage/**/.coverage
 
-      - name: "Upload Combined Coverage to Coveralls"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          coveralls
-
       - name: "Upload Combined Coverage Aretfact"
         uses: actions/upload-artifact@v2
         with:
           name: "combined-coverage"
           path: .coverage
+
+      - name: "Upload Combined Coverage to Coveralls"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          coveralls
 
       - name: Build source distribution 📦
         run: |
