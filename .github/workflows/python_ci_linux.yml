@@ -38,10 +38,11 @@ jobs:
       - name: "Run Tests for Python ${{ matrix.python-version }}"
         run: "python -m tox"
 
-      - name: Coveralls Parallel
-        uses: AndreMiras/coveralls-python-action@develop
+      - name: "Upload Coverage"
+        uses: actions/upload-artifact@v2
         with:
-          parallel: true
+          name: "coverage-${{ matrix.python-version }}"
+          path: .coverage
 
 
   finish:
@@ -74,8 +75,8 @@ jobs:
           user: __token__
           password: ${{ secrets.pypi_password }}
           skip_existing: true
-
-      - name: Coveralls Finished
-        uses: AndreMiras/coveralls-python-action@develop
-        with:
-          parallel-finished: true
+#
+#      - name: Coveralls Finished
+#        uses: AndreMiras/coveralls-python-action@develop
+#        with:
+#          parallel-finished: true
