@@ -19,15 +19,15 @@ E.g.:
 # stdlib
 import ast
 import sys
+import textwrap
 import typing
 from collections.abc import Collection
 from io import StringIO
-from textwrap import indent
-from typing import Any, Sequence, Union
+from typing import Sequence, Union
 
 # 3rd party
 import asttokens  # type: ignore
-from domdf_python_tools.stringlist import DelimitedList
+from domdf_python_tools.stringlist import DelimitedList, StringList
 from domdf_python_tools.words import TAB
 
 __all__ = ["Generic", "List", "Visitor", "UnionVisitor", "reformat_generics"]
@@ -69,9 +69,9 @@ class Generic:
 			elements: DelimitedList[str] = DelimitedList()
 			for element in self.elements:
 				if isinstance(element, Generic):
-					elements.append(indent(element.format(line_offset + 4), '\t'))
+					elements.append(textwrap.indent(element.format(line_offset + 4), '\t'))
 				else:
-					elements.append(indent(str(element), '\t'))
+					elements.append(textwrap.indent(str(element), '\t'))
 			return f"{self.name}[\n{elements:,\n}\n	]"
 		else:
 			return repr(self)
@@ -92,18 +92,19 @@ class List:
 
 
 class Visitor(ast.NodeVisitor):  # noqa: D101
+	in_class = False
 
 	def __init__(self):
-		self.unions: typing.List[typing.Tuple[ast.Subscript, Generic]] = []
+		self.unions: typing.List[typing.Tuple[ast.Subscript, Generic, bool]] = []
 
 	def visit_Subscript(self, node: ast.Subscript) -> None:  # noqa: D102
 		if isinstance(node.value, ast.Name) and node.value.id in collection_types:
 			union = Generic(node.value.id, UnionVisitor().visit(node.slice.value))  # type: ignore
-			self.unions.append((node, union))
+			self.unions.append((node, union, self.in_class))
 		else:
 			self.generic_visit(node)
 
-	def visit(self, node: ast.AST) -> typing.List[typing.Tuple[ast.Subscript, Generic]]:  # noqa: D102
+	def visit(self, node: ast.AST) -> typing.List[typing.Tuple[ast.Subscript, Generic, bool]]:  # noqa: D102
 		super().visit(node)
 		return self.unions
 
@@ -111,10 +112,17 @@ class Visitor(ast.NodeVisitor):  # noqa: D101
 		return None
 
 	def visit_ClassDef(self, node: ast.ClassDef) -> None:  # noqa: D102
-		self.generic_visit(node)
+		self.unions.extend(ClassVisitor().visit(node))
 
 	def visit_AsyncFunctionDef(self, node: ast.AsyncFunctionDef) -> None:  # noqa: D102
 		return None
+
+
+class ClassVisitor(Visitor):  # noqa: D101
+	in_class = True
+
+	def visit_ClassDef(self, node: ast.ClassDef) -> None:  # noqa: D102
+		self.generic_visit(node)
 
 
 class UnionVisitor(ast.NodeVisitor):  # noqa: D101
@@ -215,7 +223,7 @@ def reformat_generics(source: str) -> str:
 	atok = asttokens.ASTTokens(source, parse=True)
 
 	try:
-		for union_node, union_obj in visitor.visit(atok.tree):
+		for union_node, union_obj, in_class in visitor.visit(atok.tree):
 			text_range = atok.get_text_range(union_node)
 			buf.write(source[offset:text_range[0]])
 
@@ -226,13 +234,14 @@ def reformat_generics(source: str) -> str:
 			else:
 				line_offset = 0
 
-			formatted_obj = union_obj.format(line_offset).splitlines(True)
+			formatted_obj = StringList(union_obj.format(line_offset))
 
-			buf.write(formatted_obj[0])
-			indent = (len(reversed_line) - len(reversed_line.rstrip()))
-
-			for line in formatted_obj[1:]:
-				buf.write(f"{TAB * (indent + 1)}{line}")
+			if in_class:
+				buf.write(formatted_obj[0])
+				buf.write('\n')
+				buf.write(textwrap.indent(str(StringList(formatted_obj[1:])), TAB))
+			else:
+				buf.write(str(formatted_obj))
 
 			offset = text_range[1]
 

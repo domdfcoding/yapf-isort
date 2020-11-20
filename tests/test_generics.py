@@ -25,6 +25,17 @@ _ParamsType = Optional[Union[Mapping[Union[str, bytes, int, float], "_ParamsMapp
 								Tuple[Union[str, bytes, int, float], "_ParamsMappingValueType"], ]]
 """
 
+example_3 = """
+dtype = Literal["sphinx_rtd_theme", "sphinx-rtd-theme", "alabaster", "repo_helper_sphinx_theme",
+				"repo-helper-sphinx-theme", "domdf_sphinx_theme", "domdf-sphinx-theme", "furo"]
+"""
+
+example_4 = """
+class Foo:
+	dtype = Literal["sphinx_rtd_theme", "sphinx-rtd-theme", "alabaster", "repo_helper_sphinx_theme",
+					"repo-helper-sphinx-theme", "domdf_sphinx_theme", "domdf-sphinx-theme", "furo"]
+"""
+
 
 @pytest.mark.parametrize(
 		"input",
@@ -49,6 +60,8 @@ _ParamsType = Optional[Union[Mapping[Union[str, bytes, int, float], "_ParamsMapp
 				pytest.param(example_1, id="Multiline 1"),
 				pytest.param(example_1a, id="Multiline 1a"),
 				pytest.param(example_2, id="Multiline 2"),
+				pytest.param(example_3, id="Literal"),
+				pytest.param(example_4, id="Literal in class"),
 				]
 		)
 def test_generics(input, file_regression: FileRegressionFixture):  # noqa: A002
