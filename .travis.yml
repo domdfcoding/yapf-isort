@@ -7,53 +7,17 @@ dist: focal
 cache: pip
 python:
   - '3.6'
-  - '3.7'
-  - '3.8'
 
 arch:
-  - amd64
   - arm64
 install:
 
   - pip install --upgrade pip
   - pip install tox tox-travis
-  - pip install coveralls coverage_pyver_pragma
+  - pip install coverage_pyver_pragma
 
 script:
   - tox -vv
-after_success:
-  - coveralls
-
 
 stages:
   - test
-  - deploy_pypi
-
-
-jobs:
-  allow_failures:
-    - arch: arm64
-  exclude:
-    - python: '3.7'
-      arch: arm64
-    - python: '3.8'
-      arch: arm64
-
-  include:
-    - stage: test
-      dist: bionic
-      python: 3.8
-
-    - stage: deploy_pypi
-      python: "3.6"
-      script: skip
-      deploy:
-        on:
-          tags: true
-          repo: domdfcoding/yapf-isort
-        provider: pypi
-        username: "DomDF"
-        password:
-          secure: tOnpf2Iwg+Db9q/82VlbeOgy8m4Rfgi8pbqJuAu42uNADhDCuLb7led8BZXzhV4v/98LcvKjZuze9EwaMDCIO4eDs8gUokJb/m0Pbbc4BKeBNDLH12DBu4xh+IDlQQFZ37y9iCZxvgZ1pq5WN7zIQDHZwghchZc1RiJ1ETzQlEmgXAOWIWfK0cgDlLP7Zcad5dYJMY/0p2MdwxwQrPa+lyN6qtcF3LBjFpNftmzOnyo4oTkiftqq6jm/IDLUlpZ2jdIO3/08cXAyN/aIAz/8na7mt3GXgIQES0aB7tbh0x0EKFoPzFDjmgjOakMBp+QNxWPD/JxJuBIk7oAbeK9DjYQB801MV5dvy9Wgpho0R/i+UQlQFHakVnGb5lGDogpYQYKvlnno65ME6mkoDtmkoWJNfeBaja7N4M3CCIr8GKOF5mjgYU16dGhQJ/KTkM0HzKmQs76uT2ZlrSHmRQ07oC4X3C67/pRdd5CemmB2d1LlOtyUcKMbvoM+/eM3O46qEE3DRmLBKnAS02+aGIKBUbJvDzy9blSJ834lPHOLbUwIOt7zDu7iOwVtakF43ldMMzD1ULtPg07LHTDOMX8tgWBiBYE9auIVM6SV3LEZPrJe0HHOSMfjxOpWxXGE6vDZ72bv6R8GV5nrhcPPEotSzv72M2H4B+Tj7gemjEUTCOA=
-        distributions: "sdist bdist_wheel"
-        skip_existing: true
