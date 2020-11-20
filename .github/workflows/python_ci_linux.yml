@@ -90,8 +90,8 @@ jobs:
           shopt -s globstar
           python -m coverage combine coverage/**/.coverage
           ls -R ./coverage
-          python .github/relative_coverage.py
           echo "$(pwd)"
+#          python .github/relative_coverage.py
 
       - name: "Upload Combined Coverage to Coveralls"
         env:
