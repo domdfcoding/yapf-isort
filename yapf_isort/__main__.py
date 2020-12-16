@@ -2,7 +2,7 @@
 #
 #  __main__.py
 """
-yapf 💌 isort
+yapf 💌 isort.
 """
 #
 #  Copyright © 2020 Dominic Davis-Foster <dominic@davis-foster.co.uk>
@@ -58,7 +58,7 @@ def main(
 		exclude: Optional[List[str]],
 		):
 	"""
-	yapf 💌 isort
+	yapf 💌 isort.
 	"""
 
 	retv = 0

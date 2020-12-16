@@ -2,7 +2,7 @@
 #
 #  __init__.py
 """
-yapf 💌 isort
+yapf 💌 isort.
 """
 #
 #  Copyright © 2020 Dominic Davis-Foster <dominic@davis-foster.co.uk>
