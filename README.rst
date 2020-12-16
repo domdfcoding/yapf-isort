@@ -20,7 +20,7 @@ together for formatting Python source files.
 	:widths: 10 90
 
 	* - Tests
-	  - |travis| |actions_windows| |actions_macos| |coveralls| |codefactor| |pre_commit_ci|
+	  - |actions_linux| |actions_windows| |actions_macos| |coveralls| |codefactor| |pre_commit_ci|
 	* - PyPI
 	  - |pypi-version| |supported-versions| |supported-implementations| |wheel|
 	* - Activity
@@ -28,18 +28,16 @@ together for formatting Python source files.
 	* - Other
 	  - |license| |language| |requires| |pre_commit|
 
-
-
-.. |travis| image:: https://github.com/domdfcoding/yapf-isort/workflows/Linux%20Tests/badge.svg
-	:target: https://github.com/domdfcoding/yapf-isort/actions?query=workflow%3A%22Linux+Tests%22
+.. |actions_linux| image:: https://github.com/domdfcoding/yapf-isort/workflows/Linux/badge.svg
+	:target: https://github.com/domdfcoding/yapf-isort/actions?query=workflow%3A%22Linux%22
 	:alt: Linux Test Status
 
-.. |actions_windows| image:: https://github.com/domdfcoding/yapf-isort/workflows/Windows%20Tests/badge.svg
-	:target: https://github.com/domdfcoding/yapf-isort/actions?query=workflow%3A%22Windows+Tests%22
+.. |actions_windows| image:: https://github.com/domdfcoding/yapf-isort/workflows/Windows/badge.svg
+	:target: https://github.com/domdfcoding/yapf-isort/actions?query=workflow%3A%22Windows%22
 	:alt: Windows Test Status
 
-.. |actions_macos| image:: https://github.com/domdfcoding/yapf-isort/workflows/macOS%20Tests/badge.svg
-	:target: https://github.com/domdfcoding/yapf-isort/actions?query=workflow%3A%22macOS+Tests%22
+.. |actions_macos| image:: https://github.com/domdfcoding/yapf-isort/workflows/macOS/badge.svg
+	:target: https://github.com/domdfcoding/yapf-isort/actions?query=workflow%3A%22macOS%22
 	:alt: macOS Test Status
 
 .. |requires| image:: https://requires.io/github/domdfcoding/yapf-isort/requirements.svg?branch=master
