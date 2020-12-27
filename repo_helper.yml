@@ -23,3 +23,6 @@ python_versions:
   - 3.6
   - 3.7
   - 3.8
+
+tox_unmanaged:
+  - flake8
