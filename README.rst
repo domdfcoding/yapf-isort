@@ -20,15 +20,17 @@ together for formatting Python source files.
 	:widths: 10 90
 
 	* - Tests
-	  - |actions_linux| |actions_windows| |actions_macos| |coveralls| |codefactor| |pre_commit_ci|
+	  - |actions_linux| |actions_windows| |actions_macos| |coveralls|
 	* - PyPI
 	  - |pypi-version| |supported-versions| |supported-implementations| |wheel|
 	* - Anaconda
 	  - |conda-version| |conda-platform|
 	* - Activity
-	  - |commits-latest| |commits-since| |maintained|
+	  - |commits-latest| |commits-since| |maintained| |pypi-downloads|
+	* - QA
+	  - |codefactor| |actions_flake8| |actions_mypy| |pre_commit_ci|
 	* - Other
-	  - |license| |language| |requires| |pre_commit|
+	  - |license| |language| |requires|
 
 .. |actions_linux| image:: https://github.com/domdfcoding/yapf-isort/workflows/Linux/badge.svg
 	:target: https://github.com/domdfcoding/yapf-isort/actions?query=workflow%3A%22Linux%22
@@ -41,6 +43,14 @@ together for formatting Python source files.
 .. |actions_macos| image:: https://github.com/domdfcoding/yapf-isort/workflows/macOS/badge.svg
 	:target: https://github.com/domdfcoding/yapf-isort/actions?query=workflow%3A%22macOS%22
 	:alt: macOS Test Status
+
+.. |actions_flake8| image:: https://github.com/domdfcoding/yapf-isort/workflows/Flake8/badge.svg
+	:target: https://github.com/domdfcoding/yapf-isort/actions?query=workflow%3A%22Flake8%22
+	:alt: Flake8 Status
+
+.. |actions_mypy| image:: https://github.com/domdfcoding/yapf-isort/workflows/mypy/badge.svg
+	:target: https://github.com/domdfcoding/yapf-isort/actions?query=workflow%3A%22mypy%22
+	:alt: mypy status
 
 .. |requires| image:: https://requires.io/github/domdfcoding/yapf-isort/requirements.svg?branch=master
 	:target: https://requires.io/github/domdfcoding/yapf-isort/requirements/?branch=master
@@ -96,9 +106,9 @@ together for formatting Python source files.
 .. |maintained| image:: https://img.shields.io/maintenance/yes/2020
 	:alt: Maintenance
 
-.. |pre_commit| image:: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
-	:target: https://github.com/pre-commit/pre-commit
-	:alt: pre-commit
+.. |pypi-downloads| image:: https://img.shields.io/pypi/dm/yapf-isort
+	:target: https://pypi.org/project/yapf-isort/
+	:alt: PyPI - Downloads
 
 .. |pre_commit_ci| image:: https://results.pre-commit.ci/badge/github/domdfcoding/yapf-isort/master.svg
 	:target: https://results.pre-commit.ci/latest/github/domdfcoding/yapf-isort/master
@@ -127,8 +137,8 @@ To install with ``conda``:
 
 	.. code-block:: bash
 
-		$ conda config --add channels http://conda.anaconda.org/domdfcoding
 		$ conda config --add channels http://conda.anaconda.org/conda-forge
+		$ conda config --add channels http://conda.anaconda.org/domdfcoding
 
 	* Then install
 
