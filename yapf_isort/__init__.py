@@ -11,6 +11,7 @@ yapf 💌 isort.
 #
 
 # stdlib
+import re
 from typing import Optional
 
 # 3rd party
@@ -78,6 +79,9 @@ class Reformatter:
 
 		self._reformatted_source = str(isorted_code)
 		# self._reformatted_source = quote_formatted_code
+
+		# Fix for noqa comments being pished to new line
+		self._reformatted_source = re.sub(r'"""[\n\s]+#\s+noqa', '"""  # noqa', self._reformatted_source)
 
 		return self._reformatted_source != self._unformatted_source
 
