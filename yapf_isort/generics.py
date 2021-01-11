@@ -57,7 +57,7 @@ class Generic:
 	def __repr__(self) -> str:
 		return f"{self.name}[{self.elements:, }]"
 
-	def format(self, line_offset: int = 0) -> str:  # noqa: A003
+	def format(self, line_offset: int = 0) -> str:  # noqa: A003  # pylint: disable=redefined-builtin
 		"""
 		Formats the :class:`~.Generic`.
 

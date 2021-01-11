@@ -64,5 +64,5 @@ class Foo:
 				pytest.param(example_4, id="Literal in class"),
 				]
 		)
-def test_generics(input, file_regression: FileRegressionFixture):  # noqa: A002
+def test_generics(input, file_regression: FileRegressionFixture):  # noqa: A002  # pylint: disable=redefined-builtin
 	file_regression.check(reformat_generics(input), encoding="UTF-8", extension="._py")
