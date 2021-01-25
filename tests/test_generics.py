@@ -1,5 +1,6 @@
 # 3rd party
 import pytest
+from coincidence.regressions import check_file_regression
 from pytest_regressions.file_regression import FileRegressionFixture
 
 # this package
@@ -65,4 +66,4 @@ class Foo:
 				]
 		)
 def test_generics(input, file_regression: FileRegressionFixture):  # noqa: A002  # pylint: disable=redefined-builtin
-	file_regression.check(reformat_generics(input), encoding="UTF-8", extension="._py")
+	check_file_regression(reformat_generics(input), file_regression, extension="._py")
