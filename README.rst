@@ -28,7 +28,7 @@ together for formatting Python source files.
 	* - Activity
 	  - |commits-latest| |commits-since| |maintained| |pypi-downloads|
 	* - QA
-	  - |codefactor| |actions_flake8| |actions_mypy| |pre_commit_ci|
+	  - |codefactor| |actions_flake8| |actions_mypy|
 	* - Other
 	  - |license| |language| |requires|
 
@@ -110,10 +110,6 @@ together for formatting Python source files.
 	:target: https://pypi.org/project/yapf-isort/
 	:alt: PyPI - Downloads
 
-.. |pre_commit_ci| image:: https://results.pre-commit.ci/badge/github/domdfcoding/yapf-isort/master.svg
-	:target: https://results.pre-commit.ci/latest/github/domdfcoding/yapf-isort/master
-	:alt: pre-commit.ci status
-
 .. end shields
 
 |
@@ -137,8 +133,8 @@ To install with ``conda``:
 
 	.. code-block:: bash
 
-		$ conda config --add channels http://conda.anaconda.org/conda-forge
-		$ conda config --add channels http://conda.anaconda.org/domdfcoding
+		$ conda config --add channels https://conda.anaconda.org/conda-forge
+		$ conda config --add channels https://conda.anaconda.org/domdfcoding
 
 	* Then install
 
