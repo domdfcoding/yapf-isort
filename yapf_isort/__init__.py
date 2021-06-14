@@ -50,8 +50,8 @@ class Reformatter:
 	"""
 
 	def __init__(self, filename: PathLike, yapf_style: str, isort_config: Config):
-		self.filename = str(filename)
 		self.file_to_format = PathPlus(filename)
+		self.filename = self.file_to_format.as_posix()
 		self.yapf_style = yapf_style
 		self.isort_config = isort_config
 		self._unformatted_source = self.file_to_format.read_text()
