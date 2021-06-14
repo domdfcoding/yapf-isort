@@ -11,97 +11,14 @@ Reformatter for quotes.
 #
 
 # stdlib
-import ast
-import json
-import re
-import sys
-from io import StringIO
-from typing import List
 
 # 3rd party
 import asttokens  # type: ignore
+from domdf_python_tools.utils import double_repr_string
+from formate.dynamic_quotes import QuoteRewriter, dynamic_quotes
 
 __all__ = ["Visitor", "double_repr", "reformat_quotes"]
 
-
-class Visitor(ast.NodeVisitor):  # noqa: D101
-
-	def __init__(self):
-		super().__init__()
-		self.string_nodes: List[ast.Str] = []
-
-	if sys.version_info[:2] < (3, 8):
-
-		def visit_Str(self, node: ast.Str) -> None:  # noqa: D102
-			self.string_nodes.append(node)
-	else:
-
-		def visit_Constant(self, node: ast.Constant) -> None:  # noqa: D102
-			if isinstance(node.value, str):
-				self.string_nodes.append(node)
-			else:
-				self.generic_visit(node)
-
-	def visit(self, node: ast.AST) -> List[ast.Str]:  # noqa: D102
-		super().visit(node)
-		return self.string_nodes
-
-
-def double_repr(string: str):
-	"""
-	Like :func:`repr`, but tries to use double quotes instead.
-	"""
-
-	# figure out which quote to use; double is preferred
-	if '"' in string and "'" not in string:
-		return repr(string)
-	else:
-		return json.dumps(string, ensure_ascii=False)
-
-
-def reformat_quotes(source: str) -> str:
-	"""
-	Reformats quotes in the given source, and returns the reformatted source.
-
-	:param source:
-	"""
-
-	offset = 0
-	buf = StringIO()
-	visitor = Visitor()
-	atok = asttokens.ASTTokens(source, parse=True)
-
-	def key_func(value):
-		return atok.get_text_range(value)[0]
-
-	try:
-		for string_node in sorted(visitor.visit(atok.tree), key=key_func):
-			text_range = atok.get_text_range(string_node)
-
-			if text_range == (0, 0):
-				continue
-
-			buf.write(source[offset:text_range[0]])
-
-			if source[text_range[0]:text_range[1]] in {'""', "''"}:
-				buf.write("''")
-			elif not re.match("^[\"']", source[text_range[0]:text_range[1]]):
-				buf.write(source[text_range[0]:text_range[1]])
-			elif len(string_node.s) == 1:
-				buf.write(repr(string_node.s))
-			elif '\n' in source[text_range[0]:text_range[1]]:
-				buf.write(source[text_range[0]:text_range[1]])
-			elif '\n' in string_node.s or "\\n" in string_node.s:
-				buf.write(source[text_range[0]:text_range[1]])
-			else:
-				buf.write(double_repr(string_node.s))
-
-			offset = text_range[1]
-
-		buf.write(source[offset:])
-
-		return buf.getvalue()
-
-	except NotImplementedError as e:  # pragma: no cover
-		print(f"An error occurred: {e}")
-		return source
+Visitor = QuoteRewriter
+double_repr = double_repr_string
+reformat_quotes = dynamic_quotes

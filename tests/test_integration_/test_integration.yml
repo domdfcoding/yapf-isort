@@ -1,0 +1,22 @@
+err:
+- ''
+out:
+- "--- .../test_integration0/code.py\t(original)"
+- "+++ .../test_integration0/code.py\t(reformatted)"
+- '@@ -1,10 +1,9 @@'
+- ' class F:'
+- "-\tfrom collections import ("
+- -Iterable,
+- "-\tCounter,"
+- "-\t\t)"
+- "+\t# stdlib"
+- "+\tfrom collections import Counter, Iterable"
+- ''
+- " \tdef foo(self):"
+- " \t\tpass"
+- ''
+- -print('hello world')
+- +
+- +print("hello world")
+- ''
+- ''

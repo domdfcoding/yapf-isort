@@ -22,6 +22,7 @@ from consolekit.utils import coloured_diff
 from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.stringlist import StringList
 from domdf_python_tools.typing import PathLike
+from formate.mini_hooks import noqa_reformat
 from isort import Config
 from isort.exceptions import FileSkipComment  # type: ignore
 from yapf.yapflib.yapf_api import FormatCode  # type: ignore
@@ -37,8 +38,6 @@ __version__: str = "0.5.0"
 __email__: str = "dominic@davis-foster.co.uk"
 
 __all__ = ["Reformatter", "reformat_file"]
-
-# TODO: options for no colours in output and no diff when changes made.
 
 
 class Reformatter:
@@ -78,10 +77,9 @@ class Reformatter:
 		isorted_code.blankline(ensure_single=True)
 
 		self._reformatted_source = str(isorted_code)
-		# self._reformatted_source = quote_formatted_code
 
 		# Fix for noqa comments being pushed to new line
-		self._reformatted_source = re.sub(r'"""[\n\s]+#\s+noqa', '"""  # noqa', self._reformatted_source)
+		self._reformatted_source = noqa_reformat(self._reformatted_source)
 
 		return self._reformatted_source != self._unformatted_source
 
