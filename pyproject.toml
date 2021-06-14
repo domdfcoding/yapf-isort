@@ -9,9 +9,11 @@ description = "yapf 💌 isort"
 readme = "README.rst"
 keywords = []
 dynamic = [ "requires-python", "classifiers", "dependencies",]
+
 [[project.authors]]
-email = "dominic@davis-foster.co.uk"
 name = "Dominic Davis-Foster"
+email = "dominic@davis-foster.co.uk"
+
 
 [project.license]
 file = "LICENSE"
@@ -24,3 +26,9 @@ Homepage = "https://github.com/domdfcoding/yapf-isort"
 [project.scripts]
 yapf_isort = "yapf_isort.__main__:main"
 yapf-isort = "yapf_isort.__main__:main"
+
+[tool.mkrecipe]
+conda-channels = [ "conda-forge", "domdfcoding",]
+extras = "all"
+license-key = "Apache-2.0"
+package = "yapf_isort"
