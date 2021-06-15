@@ -10,6 +10,7 @@ license: 'Apache'
 short_desc: 'yapf 💌 isort'
 
 enable_docs: False
+use_whey: true
 
 conda_channels:
   - domdfcoding

@@ -1,6 +1,6 @@
 [build-system]
-requires = [ "setuptools>=40.6.0", "wheel>=0.34.2",]
-build-backend = "setuptools.build_meta"
+requires = [ "whey",]
+build-backend = "whey"
 
 [project]
 name = "yapf-isort"
@@ -30,5 +30,13 @@ yapf-isort = "yapf_isort.__main__:main"
 [tool.mkrecipe]
 conda-channels = [ "conda-forge", "domdfcoding",]
 extras = "all"
+license-key = "Apache-2.0"
+package = "yapf_isort"
+
+[tool.whey]
+base-classifiers = [ "Typing :: Typed",]
+python-versions = [ "3.6", "3.7", "3.8", "3.9",]
+python-implementations = [ "CPython",]
+platforms = [ "Windows", "macOS", "Linux",]
 license-key = "Apache-2.0"
 package = "yapf_isort"
