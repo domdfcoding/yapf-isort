@@ -14,12 +14,12 @@ yapf 💌 isort.
 import fnmatch
 import re
 import sys
-from typing import List, Optional
+from typing import Iterable, List, Optional
 
 # 3rd party
 import click
 from consolekit import click_command
-from domdf_python_tools.paths import PathPlus
+from consolekit.options import auto_default_option
 
 # this package
 from yapf_isort import reformat_file
@@ -27,35 +27,32 @@ from yapf_isort import reformat_file
 __all__ = ["main"]
 
 
-@click.argument("filename", type=click.STRING, nargs=-1)
-@click.option(
-		"--yapf-style",
-		type=click.STRING,
-		help="The name of the yapf style to use, or the path to a style file.",
-		default=".style.yapf",
-		show_default=True,
-		)
-@click.option(
-		"--isort-config",
-		type=PathPlus,
-		help="The path to the isort configuration file.",
-		default=".isort.cfg",
-		show_default=True,
-		)
-@click.option(
+@auto_default_option(
 		"-e",
 		"--exclude",
 		metavar="PATTERN",
 		type=list,
-		default=None,
 		help="patterns for files to exclude from formatting",
 		)
+@auto_default_option(
+		"--isort-config",
+		type=click.STRING,
+		help="The path to the isort configuration file.",
+		show_default=True,
+		)
+@auto_default_option(
+		"--yapf-style",
+		type=click.STRING,
+		help="The name of the yapf style to use, or the path to a style file.",
+		show_default=True,
+		)
+@click.argument("filename", type=click.STRING, nargs=-1)
 @click_command()
 def main(
-		filename: str,
-		yapf_style: str,
-		isort_config: PathPlus,
-		exclude: Optional[List[str]],
+		filename: Iterable[str],
+		yapf_style: str = ".style.yapf",
+		isort_config: str = ".isort.cfg",
+		exclude: Optional[List[str]] = None,
 		):
 	"""
 	yapf 💌 isort.

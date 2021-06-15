@@ -53,4 +53,3 @@ known_third_party = [
     "yapf",
 ]
 known_first_party = "yapf_isort"
-line_length = 115
