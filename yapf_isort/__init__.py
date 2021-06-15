@@ -11,7 +11,6 @@ yapf 💌 isort.
 #
 
 # stdlib
-import re
 from typing import Optional
 
 # 3rd party
