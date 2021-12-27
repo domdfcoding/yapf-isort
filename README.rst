@@ -52,8 +52,8 @@ together for formatting Python source files.
 	:target: https://github.com/domdfcoding/yapf-isort/actions?query=workflow%3A%22mypy%22
 	:alt: mypy status
 
-.. |requires| image:: https://requires.io/github/domdfcoding/yapf-isort/requirements.svg?branch=master
-	:target: https://requires.io/github/domdfcoding/yapf-isort/requirements/?branch=master
+.. |requires| image:: https://dependency-dash.herokuapp.com/github/domdfcoding/yapf-isort/badge.svg
+	:target: https://dependency-dash.herokuapp.com/github/domdfcoding/yapf-isort/
 	:alt: Requirements Status
 
 .. |coveralls| image:: https://img.shields.io/coveralls/github/domdfcoding/yapf-isort/master?logo=coveralls
