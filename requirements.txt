@@ -3,5 +3,5 @@ click>=7.1.2
 consolekit>=0.3.0
 domdf-python-tools>=0.10.0
 formate>=0.4.5
-isort>=5.5.2,<5.10.2
+isort<5.10.2,>=5.5.2
 yapf<0.32.0,>=0.30.0
