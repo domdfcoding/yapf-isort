@@ -4,6 +4,11 @@ name: mypy
 
 on:
   push:
+    branches-ignore:
+      - 'repo-helper-update'
+      - 'pre-commit-ci-update-config'
+      - 'imgbot'
+  pull_request:
 
 permissions:
   contents: read
@@ -29,7 +34,7 @@ jobs:
           list-files: "json"
           filters: |
             code:
-              - '!(CONTRIBUTING.rst|.imgbotconfig|.pre-commit-config.yaml|.pylintrc|.readthedocs.yml)'
+              - '!(doc-source/**|CONTRIBUTING.rst|.imgbotconfig|.pre-commit-config.yaml|.pylintrc|.readthedocs.yml)'
 
       - name: Setup Python 🐍
         if: steps.changes.outputs.code == 'true'
@@ -42,7 +47,7 @@ jobs:
           python -VV
           python -m site
           python -m pip install --upgrade pip setuptools wheel
-          python -m pip install --upgrade tox virtualenv
+          python -m pip install --upgrade tox virtualenv!=20.16.0
 
       - name: "Run mypy"
         if: steps.changes.outputs.code == 'true'
