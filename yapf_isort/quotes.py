@@ -13,7 +13,6 @@ Reformatter for quotes.
 # stdlib
 
 # 3rd party
-import asttokens  # type: ignore
 from domdf_python_tools.utils import double_repr_string
 from formate.dynamic_quotes import QuoteRewriter, dynamic_quotes
 
