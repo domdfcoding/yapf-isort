@@ -1,7 +1,6 @@
 # 3rd party
 import pytest
-from coincidence.regressions import check_file_regression
-from pytest_regressions.file_regression import FileRegressionFixture
+from coincidence.regressions import AdvancedFileRegressionFixture
 
 # this package
 from yapf_isort.generics import reformat_generics
@@ -65,5 +64,5 @@ class Foo:
 				pytest.param(example_4, id="Literal in class"),
 				]
 		)
-def test_generics(input, file_regression: FileRegressionFixture):  # noqa: A002  # pylint: disable=redefined-builtin
-	check_file_regression(reformat_generics(input), file_regression, extension="._py")
+def test_generics(input: str, advanced_file_regression: AdvancedFileRegressionFixture):  # noqa: A002  # pylint: disable=redefined-builtin
+	advanced_file_regression.check(reformat_generics(input), extension="._py")

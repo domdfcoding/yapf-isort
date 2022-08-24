@@ -1,6 +1,6 @@
 # stdlib
 import re
-from typing import Union, no_type_check
+from typing import Iterator, Union, no_type_check
 
 # 3rd party
 import isort  # type: ignore
@@ -20,7 +20,10 @@ path_sub = re.compile(rf" .*/pytest-of-.*/pytest-\d+")
 
 
 @no_type_check
-def check_out(result: Union[Result, CaptureResult[str]], advanced_data_regression: AdvancedDataRegressionFixture):
+def check_out(
+		result: Union[Result, CaptureResult[str]],
+		advanced_data_regression: AdvancedDataRegressionFixture,
+		) -> None:
 
 	if hasattr(result, "stdout"):
 		stdout = result.stdout
@@ -41,7 +44,7 @@ def check_out(result: Union[Result, CaptureResult[str]], advanced_data_regressio
 
 
 @pytest.fixture()
-def demo_environment(tmp_pathplus):
+def demo_environment(tmp_pathplus: PathPlus) -> Iterator[None]:
 
 	code = [
 			"class F:",
@@ -69,29 +72,30 @@ def demo_environment(tmp_pathplus):
 
 
 @pytest.fixture()
-def isort_config_file():
+def isort_config_file() -> str:
 	return str(PathPlus(__file__).parent / "isort.cfg")
 
 
 @pytest.fixture()
-def yapf_style():
+def yapf_style() -> str:
 	return str(PathPlus(__file__).parent / "style.yapf")
 
 
+@pytest.mark.usefixtures("demo_environment")
 @pytest.fixture()
-def demo_pyproject_environment(demo_environment, tmp_pathplus):
+def demo_pyproject_environment(tmp_pathplus: PathPlus) -> None:
 	example_formate_toml = PathPlus(__file__).parent / "example_pyproject.toml"
 	(tmp_pathplus / "pyproject.toml").write_text(example_formate_toml.read_text())
 
 
+@pytest.mark.usefixtures("demo_environment")
 def test_integration(
 		tmp_pathplus: PathPlus,
 		advanced_file_regression: AdvancedFileRegressionFixture,
 		capsys,
 		advanced_data_regression: AdvancedDataRegressionFixture,
-		demo_environment,
-		isort_config_file,
-		yapf_style,
+		isort_config_file: str,
+		yapf_style: str,
 		):
 
 	assert reformat_file(tmp_pathplus / "code.py", yapf_style=yapf_style, isort_config_file=isort_config_file) == 1
@@ -103,14 +107,13 @@ def test_integration(
 	advanced_file_regression.check_file(tmp_pathplus / "code.py")
 
 
+@pytest.mark.usefixtures("demo_environment")
 def test_reformatter_class(
 		tmp_pathplus: PathPlus,
 		advanced_file_regression: AdvancedFileRegressionFixture,
 		capsys,
-		advanced_data_regression: AdvancedDataRegressionFixture,
-		demo_environment,
-		yapf_style,
-		isort_config_file,
+		yapf_style: str,
+		isort_config_file: str,
 		):
 
 	isort_config = Config(settings_file=isort_config_file)
@@ -144,13 +147,13 @@ def test_reformatter_class(
 	advanced_file_regression.check_file(tmp_pathplus / "code.py")
 
 
+@pytest.mark.usefixtures("demo_environment")
 def test_cli(
 		tmp_pathplus: PathPlus,
 		advanced_file_regression: AdvancedFileRegressionFixture,
 		advanced_data_regression: AdvancedDataRegressionFixture,
-		demo_environment,
-		yapf_style,
-		isort_config_file,
+		yapf_style: str,
+		isort_config_file: str,
 		):
 
 	result: Result

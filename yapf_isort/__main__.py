@@ -53,7 +53,7 @@ def main(
 		yapf_style: str = ".style.yapf",
 		isort_config: str = ".isort.cfg",
 		exclude: Optional[List[str]] = None,
-		):
+		) -> None:
 	"""
 	yapf 💌 isort.
 	"""

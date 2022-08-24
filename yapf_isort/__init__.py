@@ -15,7 +15,7 @@ from typing import Optional
 
 # 3rd party
 import click
-import isort  # type: ignore
+import isort  # type: ignore[import]
 from consolekit.terminal_colours import resolve_color_default
 from consolekit.utils import coloured_diff
 from domdf_python_tools.paths import PathPlus
@@ -23,8 +23,8 @@ from domdf_python_tools.stringlist import StringList
 from domdf_python_tools.typing import PathLike
 from formate.mini_hooks import noqa_reformat
 from isort import Config
-from isort.exceptions import FileSkipComment  # type: ignore
-from yapf.yapflib.yapf_api import FormatCode  # type: ignore
+from isort.exceptions import FileSkipComment  # type: ignore[import]
+from yapf.yapflib.yapf_api import FormatCode  # type: ignore[import]
 
 # this package
 from yapf_isort.generics import reformat_generics

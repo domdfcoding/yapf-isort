@@ -47,5 +47,5 @@ status_codes: Dict[str, str] = {
 				(value_1, expected_1),
 				]
 		)
-def test_quotes(value, expects):
+def test_quotes(value: str, expects: str):
 	assert reformat_quotes(value) == expects
