@@ -1,9 +1,7 @@
 # 3rd party
 import pytest
 from coincidence.regressions import AdvancedFileRegressionFixture
-
-# this package
-from yapf_isort.generics import reformat_generics
+from formate.reformat_generics import reformat_generics
 
 example_1 = """
 _ConvertibleType = Union[
