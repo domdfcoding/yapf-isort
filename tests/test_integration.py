@@ -3,7 +3,7 @@ import re
 from typing import Iterator, Union, no_type_check
 
 # 3rd party
-import isort  # type: ignore
+import isort
 import pytest
 from _pytest.capture import CaptureResult
 from coincidence.regressions import AdvancedDataRegressionFixture, AdvancedFileRegressionFixture
