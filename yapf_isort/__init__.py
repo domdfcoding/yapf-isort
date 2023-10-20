@@ -22,7 +22,7 @@ from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.stringlist import StringList
 from domdf_python_tools.typing import PathLike
 from formate.mini_hooks import noqa_reformat
-from formate.reformat_generics.generics import reformat_generics
+from formate.reformat_generics import reformat_generics
 from isort import Config  # nodep
 from isort.exceptions import FileSkipComment  # type: ignore[import]  # nodep
 from yapf.yapflib.yapf_api import FormatCode  # type: ignore[import]  # nodep
