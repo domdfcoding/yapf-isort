@@ -52,4 +52,4 @@ known_third_party = [
     "requests",
     "yapf",
 ]
-known_first_party = "yapf_isort"
+known_first_party = [ "yapf_isort",]
