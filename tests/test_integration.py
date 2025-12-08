@@ -82,13 +82,6 @@ def yapf_style() -> str:
 
 
 @pytest.mark.usefixtures("demo_environment")
-@pytest.fixture()
-def demo_pyproject_environment(tmp_pathplus: PathPlus) -> None:
-	example_formate_toml = PathPlus(__file__).parent / "example_pyproject.toml"
-	(tmp_pathplus / "pyproject.toml").write_text(example_formate_toml.read_text())
-
-
-@pytest.mark.usefixtures("demo_environment")
 def test_integration(
 		tmp_pathplus: PathPlus,
 		advanced_file_regression: AdvancedFileRegressionFixture,
