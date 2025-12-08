@@ -25,7 +25,7 @@ from formate.mini_hooks import noqa_reformat
 from formate.reformat_generics import reformat_generics
 from isort import Config  # nodep
 from isort.exceptions import FileSkipComment  # nodep
-from yapf.yapflib.yapf_api import FormatCode  # type: ignore[import]  # nodep
+from yapf.yapflib.yapf_api import FormatCode  # type: ignore[import-untyped]  # nodep
 
 # this package
 from yapf_isort.quotes import reformat_quotes
