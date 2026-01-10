@@ -103,11 +103,11 @@ together for formatting Python source files.
 	:target: https://github.com/domdfcoding/yapf-isort/commit/master
 	:alt: GitHub last commit
 
-.. |maintained| image:: https://img.shields.io/maintenance/yes/2025
+.. |maintained| image:: https://img.shields.io/maintenance/yes/2026
 	:alt: Maintenance
 
 .. |pypi-downloads| image:: https://img.shields.io/pypi/dm/yapf-isort
-	:target: https://pypi.org/project/yapf-isort/
+	:target: https://pypistats.org/packages/yapf-isort
 	:alt: PyPI - Downloads
 
 .. end shields
