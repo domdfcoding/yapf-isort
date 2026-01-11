@@ -44,23 +44,23 @@ class Foo:
 				pytest.param("Tuple[int, int, str, float, str, int, bytes]", id="Simple Tuple"),
 				pytest.param(
 						"Tuple[int, int, str, float, str, int, bytes, int, int, str, float, str, int, bytes, int, int, str, float, str, int, bytes]",
-						id="Long Tuple"
+						id="Long Tuple",
 						),
 				pytest.param("Optional[Callable[[Optional[str]], Any]]", id="Complex Optional"),
 				pytest.param(
 						"_ParamsMappingValueType = Union[str, bytes, int, float, Iterable[Union[str, bytes, int, float]]]",
-						id="Complex Alias 1"
+						id="Complex Alias 1",
 						),
 				pytest.param(
 						"_Data = Union[None, str, bytes, MutableMapping[str, Any], Iterable[Tuple[str, Optional[str]]], IO]",
-						id="Complex Alias 2"
+						id="Complex Alias 2",
 						),
 				pytest.param(example_1, id="Multiline 1"),
 				pytest.param(example_1a, id="Multiline 1a"),
 				pytest.param(example_2, id="Multiline 2"),
 				pytest.param(example_3, id="Literal"),
 				pytest.param(example_4, id="Literal in class"),
-				]
+				],
 		)
 def test_generics(input: str, advanced_file_regression: AdvancedFileRegressionFixture):  # noqa: A002  # pylint: disable=redefined-builtin
 	advanced_file_regression.check(reformat_generics(input), extension="._py")
