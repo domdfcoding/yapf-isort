@@ -168,7 +168,8 @@ def test_cli(
 	with in_directory(tmp_pathplus):
 		runner = CliRunner(mix_stderr=False)
 		result = runner.invoke(
-				main, args=["code.py", "--yapf-style", yapf_style, "--isort-config", isort_config_file]
+				main,
+				args=["code.py", "--yapf-style", yapf_style, "--isort-config", isort_config_file],
 				)
 
 	assert result.exit_code == 0
