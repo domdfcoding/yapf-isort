@@ -6,7 +6,7 @@ author: 'Dominic Davis-Foster'
 email: 'dominic@davis-foster.co.uk'
 username: 'domdfcoding'
 version: '0.7.0'
-license: 'Apache'
+license: 'Apache-2.0'
 short_desc: 'yapf 💌 isort'
 
 enable_docs: False
