@@ -21,14 +21,12 @@ from consolekit.utils import coloured_diff
 from domdf_python_tools.paths import PathPlus
 from domdf_python_tools.stringlist import StringList
 from domdf_python_tools.typing import PathLike
+from formate.dynamic_quotes import dynamic_quotes
 from formate.mini_hooks import noqa_reformat
 from formate.reformat_generics import reformat_generics
 from isort import Config  # nodep
 from isort.exceptions import FileSkipComment  # nodep
 from yapf.yapflib.yapf_api import FormatCode  # type: ignore[import-untyped]  # nodep
-
-# this package
-from yapf_isort.quotes import reformat_quotes
 
 __author__: str = "Dominic Davis-Foster"
 __copyright__: str = "2020 Dominic Davis-Foster"
@@ -63,7 +61,7 @@ class Reformatter:
 		:return: Whether the file was changed.
 		"""
 
-		quote_formatted_code = reformat_quotes(self._unformatted_source)
+		quote_formatted_code = dynamic_quotes(self._unformatted_source)
 		yapfed_code = FormatCode(quote_formatted_code, style_config=self.yapf_style)[0]
 		generic_formatted_code = reformat_generics(yapfed_code)
 		# TODO: support spaces
